@@ -1,0 +1,73 @@
+/*body {font-family: 'Roboto', sans-serif; color: #3d4140;}*/
+body {
+  font-family: 'Roboto Slab', serif;
+  color: #3d4140;
+}
+p, h3 {line-height: 1.4;}
+p {font-weight: 300; font-size: 14px;}
+a {text-decoration: none; color: #3d4140}
+a:hover {color: #0099f5;}
+.separator-a {height: 1px; background-color: #e1e2e2;}
+
+/* header */
+header {
+  border-top: 6px solid #0099f5;
+  padding: 50px 0;
+}
+header nav ul {
+  display: inline-block;
+  float: right;
+}
+header nav ul::after {
+  clear: left;
+}
+header nav li {
+  float: left;
+  padding: 20px 20px 0;
+  height: 40px;
+  border-right: 1px solid #e1e2e2;
+}
+header nav li:last-child {
+  border: none;
+  padding-right: 0;
+}
+header nav li a {
+  text-transform: uppercase;
+}
+header nav li a.active{
+  color: #0099f5;
+}
+
+/* content */
+.intro {
+  text-align: justify;
+}
+.post {
+  text-align: justify;
+}
+.post .main-image {
+  float: left;
+  margin-right: 10px;
+  border: 1px solid #e1e2e2;
+}
+
+/* footer */
+footer{
+  text-align: right;
+  color: #fff;
+  background-color: #3d4140;
+}
+footer p{
+  padding-top: 60px;
+}
+/* sticky footer */
+html, body {
+  height: 100%;
+}
+.sticky-footer-wrapper {
+  min-height: 100%;
+  margin-bottom: -155px;
+}
+footer, .sticky-footer-push {
+  height: 155px;
+}

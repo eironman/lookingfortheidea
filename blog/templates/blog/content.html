@@ -1,0 +1,51 @@
+{% extends 'buscandolaidea/base_template.html' %}
+{% load staticfiles %}
+{% block pagetitle %} - {{ post.title|truncatewords:3 }}{% endblock %}
+
+{% block primary %}
+    {% if post %}
+        <div class="row">
+            <div class="col-9 post">
+                <div class="clearfix">
+                    <h2 class="mb15">{{ post.title }}</h2>
+                    {% if post.main_image %}
+                        <img class="main-image" src="{{ MEDIA_URL }}{{ post.main_image }}" />
+                    {% endif %}
+                    <p>{{ post.content|linebreaks }}</p>
+                </div>
+            
+                {% if comments %}
+                    <div class="mt30">
+                        <h3>Comentarios</h3>
+                        <ul>
+                            {% for comment in comments %}
+                                <li>
+                                    {{ comment.owner }}<br />
+                                    {{ comment.content }}<br />
+                                    {{ comment.pub_date }}<br />
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form class="mt30" action="{% url 'blog:comment' post.id %}" method="post">
+                    {% csrf_token %}
+                    {% if error_message %}
+                        <p>{{ error_message }}</p>
+                    {% endif %}
+                    <label for="author">Autor</label><br />
+                    <input type="text" name="author" id="author" value="{{ author }}"/>
+                    <br />
+                    <label for="content">Comentario</label><br />
+                    <textarea name="content" id="content">{{ comment_content }}</textarea>
+                    <br />
+                    <input type="submit" value="Comentar" />
+                </form>
+            </div>
+            <div class="col-3">
+                <h3 class="mb15">Listado otros post</h3>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
