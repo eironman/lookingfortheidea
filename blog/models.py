@@ -21,7 +21,7 @@ class Post(models.Model):
         image = Image.open(self.main_image)
 
         # Resize and save
-        maxsize = (300, 533)
+        maxsize = (800, 600)
         image.thumbnail(maxsize, Image.ANTIALIAS)
         image.save(self.main_image.path)
 

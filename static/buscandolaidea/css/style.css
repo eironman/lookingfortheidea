@@ -8,6 +8,7 @@ p {font-weight: 300; font-size: 14px;}
 a {text-decoration: none; color: #3d4140}
 a:hover {color: #0099f5;}
 .separator-a {height: 1px; background-color: #e1e2e2;}
+.text-color-a {color: #fa4657}
 
 /* header */
 header {
@@ -45,10 +46,43 @@ header nav li a.active{
 .post {
   text-align: justify;
 }
+.post .main-image-container {
+    max-height: 400px;
+    overflow: hidden;
+    border: 1px solid #e1e2e2;
+    margin-bottom: 10px;
+}
 .post .main-image {
-  float: left;
-  margin-right: 10px;
-  border: 1px solid #e1e2e2;
+  width: 100%;
+  vertical-align: bottom;
+}
+.comment-form input[type=text],
+.comment-form textarea {
+    padding: 0;
+    width: 100%;
+    border: none;
+    background-color: #e1e2e2;
+    margin-bottom: 10px;
+    padding: 10px 5px;
+    box-sizing: border-box;
+}
+.comment-form input[type=submit] {
+    border: 0;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #0099f5;
+    cursor: pointer;
+}
+.post .comment-owner,
+.post .comment-date {
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.post .comment-owner{
+    font-weight: bold;
+}
+.post .comment-date {
+    font-style: italic;
 }
 
 /* footer */
