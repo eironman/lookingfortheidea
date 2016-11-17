@@ -9,6 +9,10 @@ a {text-decoration: none; color: #3d4140}
 a:hover {color: #0099f5;}
 .separator-a {height: 1px; background-color: #e1e2e2;}
 .text-color-a {color: #fa4657}
+.date {
+    font-size: 12px;
+    font-style: italic;
+}
 
 /* header */
 header {
@@ -56,6 +60,9 @@ header nav li a.active{
   width: 100%;
   vertical-align: bottom;
 }
+.post .post-content p {
+  font-size: 15px;
+}
 .comment-form input[type=text],
 .comment-form textarea {
     padding: 0;
@@ -74,15 +81,11 @@ header nav li a.active{
     cursor: pointer;
 }
 .post .comment-owner,
-.post .comment-date {
+.post .date {
     margin-bottom: 5px;
-    font-size: 12px;
 }
 .post .comment-owner{
     font-weight: bold;
-}
-.post .comment-date {
-    font-style: italic;
 }
 
 /* footer */

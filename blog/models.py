@@ -9,7 +9,7 @@ from django.template.defaultfilters import truncatewords
 # User posts
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    content = models.CharField(max_length=20000)
+    content = models.TextField()
     pub_date = models.DateTimeField('date published', default=timezone.now)
     main_image = models.ImageField(upload_to='blog/%Y/%m/%d/', null=True)
 
@@ -56,3 +56,38 @@ class PostComment(models.Model):
 
     def __str__(self):
         return '%s - %s - %s' % (self.owner, self.pub_date, self.content)
+
+    class Meta:
+        ordering = ('-pub_date',)
+
+
+# Media (images, videos) for posts
+class PostMedia(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    url = models.ImageField(upload_to='blog/%Y/%m/%d/', blank=True, null=True)
+    video_id = models.CharField(max_length=200, blank=True)
+    order = models.IntegerField(blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True)
+
+    def save(self):
+        """Overwrite save method to resize image"""
+        super(PostMedia, self).save()
+
+        if (self.url):
+            # Get original image
+            image = Image.open(self.url)
+
+            # Resize and save
+            maxsize = (800, 600)
+            image.thumbnail(maxsize, Image.ANTIALIAS)
+            image.save(self.url.path)
+
+    def image_tag(self):
+        if self.url:
+            return u'<img style="max-width:80px" src="%s%s" />' % (settings.MEDIA_URL, self.url)
+        else:
+            return '-'
+    image_tag.allow_tags = True
+
+    class Meta:
+        ordering = ('order',)

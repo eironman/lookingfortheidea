@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import Post, PostComment
+from .models import Post, PostComment, PostMedia
 
 
 class ContentForm(forms.ModelForm):
@@ -13,7 +13,14 @@ class PostCommentInline(admin.TabularInline):
     extra = 0
     form = ContentForm
     model = PostComment
-    ordering = ['-pub_date']
+
+
+class PostMediaInline(admin.TabularInline):
+    """Media inside Post admin"""
+    extra = 5
+    model = PostMedia
+    fields = ('image_tag', 'url', 'video_id','description', 'order')
+    readonly_fields = ('image_tag',) # image_tag has to be in fields and readonly_fields to avoid django error
 
 
 @admin.register(Post)
@@ -22,8 +29,8 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     form = ContentForm
     fields = ('title', 'content', 'pub_date', 'main_image', 'image_tag',)
-    inlines = [PostCommentInline]
-    list_display = ('title', 'short_content', 'pub_date', 'num_comments')
+    inlines = [PostMediaInline, PostCommentInline]
+    list_display = ('title', 'short_content', 'pub_date', 'num_comments', 'num_media')
     list_filter = ('pub_date',)
     readonly_fields = ('image_tag',) # image_tag has to be in fields and readonly_fields to avoid django error
     search_fields = ('title',)
@@ -31,3 +38,7 @@ class PostAdmin(admin.ModelAdmin):
     def num_comments(self, obj):
         return obj.postcomment_set.count()
     num_comments.short_description = 'Comments'
+
+    def num_media(self, obj):
+        return obj.postmedia_set.count()
+    num_media.short_description = 'Media'

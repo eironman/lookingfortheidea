@@ -14,9 +14,12 @@ def posts_list(request):
 # Post content
 def content(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    post_list = Post.objects.values('id', 'title', 'pub_date').order_by('-pub_date')
     context = {
         'post': post,
-        'comments': post.postcomment_set.order_by('-pub_date')
+        'comments': post.postcomment_set.all(),
+        'post_media': post.postmedia_set.all(),
+        'post_list': post_list,
     }
     return render(request, 'blog/content.html', context)
 

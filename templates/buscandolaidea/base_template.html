@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'buscandolaidea/css/style.css' %}" />
         <!-- link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+        {% block header %}{% endblock %}
     </head>
     <body>
         <div class="sticky-footer-wrapper">
@@ -27,13 +28,6 @@
                                     Portada
                                 </a>
                             </li>
-                            <li>
-                                <a href="{% url 'blog:posts_list' %}" 
-                                    {% if request.resolver_match.url_name == "posts_list" %}class="active"{% endif %}
-                                >
-                                    Blog
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -44,41 +38,28 @@
                     <h3 class="intro">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h3>
-                    <div class="row mt30">
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img1.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Título del post largo para que haya una segunda línea</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img2.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Á É Í Ó Ú Ñ á é í ó ú ñ Texto informativo</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img3.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Texto informativo</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt30">
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img1.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Texto informativo</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img2.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Texto informativo</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                        <div class="col-4">
-                            <a href="#"><img class="w100" src="{% static 'buscandolaidea/img/img3.jpg' %}" /></a>
-                            <p class="mt20"><a href="#">Texto informativo</a></p>
-                            <div class="separator-a mt20"></div>
-                        </div>
-                    </div>
+                    {% if post_list %}
+                        {% for post in post_list %}
+                            {% if forloop.counter0|divisibleby:3 %}
+                                <div class="row mt30">
+                            {% endif %}
+                                <div class="col-4">
+                                    <a href="{% url 'blog:content' post.id %}">
+                                        <img class="w100" src="{{ MEDIA_URL }}{{ post.main_image }}" />
+                                    </a>
+                                    <p class="mt20"><a href="#">{{ post.title }}</a></p>
+                                    <div class="separator-a mt20"></div>
+                                </div>
+                            {% if forloop.counter|divisibleby:3 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% if not post_list|length|divisibleby:3 %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="mt50">Ahora mismo no hay contenido nuevo, pero seguro que en breve publicaré algo</p>
+                    {% endif %}
                 {% endblock %}
             </div>
             <div class="sticky-footer-push mt100"></div>
