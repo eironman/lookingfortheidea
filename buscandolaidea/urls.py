@@ -22,5 +22,9 @@ from . import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^blog/', include('blog.urls')),
+    url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
