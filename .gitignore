@@ -1,4 +1,5 @@
 .idea
+.gitignore
 bli_env/
 media/
 inspiration/
