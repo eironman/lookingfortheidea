@@ -6,26 +6,43 @@
         <link rel="stylesheet" type="text/css" href="{% static 'buscandolaidea/css/reset.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'buscandolaidea/css/structure.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'buscandolaidea/css/style.css' %}" />
-        <!-- link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
-        {% block header %}{% endblock %}
+
+        <script type='text/javascript' src="{% static 'buscandolaidea/js/jquery-1.12.3.min.js' %}"></script>
+        <script type='text/javascript' src="{% static 'buscandolaidea/js/scripts.js' %}"></script>
+        {% block head %}{% endblock %}
     </head>
     <body>
         <div class="sticky-footer-wrapper">
             <header>
                 <div class="row container">
-                    <div class="col-3">
+                    <div class="col-3 relative">
                         <a href="{% url 'home' %}" title="Buscando la idea">
-                            <img src="{% static 'buscandolaidea/img/logo.png' %}" alt="Buscando la idea" />
+                            <img class="logo" src="{% static 'buscandolaidea/img/logo.png' %}" alt="Buscando la idea" />
                         </a>
+                        <img class="mobile_menu_icon" src="{% static 'buscandolaidea/img/menu_icon.png' %}" />
                     </div>
                     <nav class="col-9">
                         <ul>
                             <li>
-                                <a href="{% url 'home' %}" 
+                                <a href="{% url 'home' %}"
                                     {% if request.resolver_match.url_name == "home" %}class="active"{% endif %}
                                 >
                                     Portada
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home' %}"
+                                    {% if request.resolver_match.url_name == "contact" %}class="active"{% endif %}
+                                >
+                                    Contacto
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home' %}"
+                                    {% if request.resolver_match.url_name == "visits" %}class="active"{% endif %}
+                                >
+                                    Libro de visitas
                                 </a>
                             </li>
                         </ul>

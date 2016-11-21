@@ -2,9 +2,11 @@
 {% load staticfiles %}
 {% block pagetitle %} - {{ post.title|truncatewords:3 }}{% endblock %}
 
-{% block header %}
+{% block head %}
     {% if post_media %}
-        <script type='text/javascript' src="{% static 'blog/js/jquery-11.0.min.js' %}"></script>
+        {% if load_jquery %}
+        <script type='text/javascript' src="{% static 'blog/js/jquery-1.12.3.min.js' %}"></script>
+        {% endif %}
         <script type='text/javascript' src="{% static 'blog/lib/unitegallery/js/unitegallery.min.js' %}"></script>
         <script type='text/javascript' src="{% static 'blog/lib/unitegallery/themes/default/ug-theme-default.js' %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'blog/lib/unitegallery/css/unite-gallery.css' %}" />

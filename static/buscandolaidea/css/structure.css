@@ -28,6 +28,7 @@
 }
 @media (max-width: 479px) {
   .container {width: 300px;padding: 0 15px;}
+  [class*="col-"] {width: 100%}
 }
 
 /* shorteners */

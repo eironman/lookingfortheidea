@@ -31,7 +31,7 @@ class PostAdmin(admin.ModelAdmin):
     form = ContentForm
     fields = ('title', 'content', 'pub_date', 'main_image', 'image_medium',)
     inlines = [PostMediaInline, PostCommentInline]
-    list_display = ('image_small', 'title', 'short_content', 'pub_date', 'num_comments', 'num_media')
+    list_display = ('image_small', 'title', 'pub_date', 'num_comments', 'num_media')
     list_filter = ('pub_date',)
     readonly_fields = ('image_medium',) # image_small has to be in fields and readonly_fields to avoid django error
     search_fields = ('title',)

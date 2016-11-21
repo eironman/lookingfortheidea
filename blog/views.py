@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Post, PostComment
@@ -20,6 +21,7 @@ def content(request, post_id):
         'comments': post.postcomment_set.all(),
         'post_media': post.postmedia_set.all(),
         'post_list': post_list,
+        'load_jquery': settings.BLOG_LOAD_JQUERY
     }
     return render(request, 'blog/content.html', context)
 

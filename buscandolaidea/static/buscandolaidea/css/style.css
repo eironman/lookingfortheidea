@@ -19,6 +19,9 @@ header {
   border-top: 6px solid #0099f5;
   padding: 50px 0;
 }
+header .mobile_menu_icon {
+    display: none;
+}
 header nav ul {
   display: inline-block;
   float: right;
@@ -32,6 +35,9 @@ header nav li {
   height: 40px;
   border-right: 1px solid #e1e2e2;
 }
+header nav li:first-child {
+    padding-left: 0px;
+}
 header nav li:last-child {
   border: none;
   padding-right: 0;
@@ -41,6 +47,57 @@ header nav li a {
 }
 header nav li a.active{
   color: #0099f5;
+}
+@media (max-width: 767px) {
+    header {
+        padding: 10px 0;
+    }
+    header .container {
+        padding: 0;
+    }
+    header [class*="col-"] {width: 100%; margin-bottom: 20px;}
+    header [class*="col-"] + [class*="col-"] {margin-left: 0;}
+    header .mobile_menu_icon {
+        display: block;
+        cursor: pointer;
+        width: 5%;
+        position: absolute;
+        top: 10px;
+        right: 0;
+    }
+    header .logo {
+        width: 10%;
+    }
+    header nav {
+        display: none;
+        margin-bottom: 0px !important;
+        font-size: 12px;
+    }
+    header nav ul {
+        float: none;
+        display: block;
+    }
+    header nav li {
+      padding: 0px;
+      height: auto;
+      border-right: none;
+      float: none;
+    }
+    header nav li a {
+        display: block;
+        padding-top: 20px;
+    }
+    header nav li:first-child a{
+        padding: 0px;
+    }
+}
+@media (max-width: 479px) {
+    header .logo {
+        width: 15%;
+    }
+    header .mobile_menu_icon {
+        width: 6%
+    }
 }
 
 /* content */
