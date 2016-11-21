@@ -38,13 +38,6 @@
                                     Contacto
                                 </a>
                             </li>
-                            <li>
-                                <a href="{% url 'home' %}"
-                                    {% if request.resolver_match.url_name == "visits" %}class="active"{% endif %}
-                                >
-                                    Libro de visitas
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -83,7 +76,7 @@
         </div>
         <footer>
             <div class="container">
-                <p>Buscando la idea 2016</p>
+                <p>Buscando la idea 2016&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="{% url 'contact:contact' %}">Contacto</a></p>
             </div>
         </footer>
     </body>

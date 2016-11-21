@@ -173,6 +173,9 @@ footer{
 footer p{
   padding-top: 60px;
 }
+footer a{
+    color: #fff;
+}
 /* sticky footer */
 html, body {
   height: 100%;
