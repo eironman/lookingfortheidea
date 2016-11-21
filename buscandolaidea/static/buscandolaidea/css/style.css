@@ -123,8 +123,11 @@ header nav li a.active{
 .post .post-content p {
   font-size: 15px;
 }
-.comment-form input[type=text],
-.comment-form textarea {
+.form legend {
+    line-height: 1.4;
+}
+.form input[type=text],
+.form textarea {
     padding: 0;
     width: 100%;
     border: none;
@@ -133,7 +136,7 @@ header nav li a.active{
     padding: 10px 5px;
     box-sizing: border-box;
 }
-.comment-form input[type=submit] {
+.form input[type=submit] {
     border: 0;
     padding: 10px 15px;
     color: #fff;
@@ -146,6 +149,19 @@ header nav li a.active{
 }
 .post .comment-owner{
     font-weight: bold;
+}
+
+/* contact */
+.contact-form input[name="name"],
+.contact-form input[name="email"] {
+    height: 50px;
+}
+.contact-form img {
+    border: 1px solid #e1e2e2;
+}
+@media (max-width: 767px) {
+    [class*="col-"] {width: 100%; margin-bottom: 10px;}
+    [class*="col-"] + [class*="col-"] {margin-left: 0;}
 }
 
 /* footer */

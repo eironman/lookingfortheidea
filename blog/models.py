@@ -32,6 +32,9 @@ def create_thumbnail(original_image_full_path, size, suffix):
     return
 
 
+# MODELS
+
+
 class Post(models.Model):
     """User posts"""
     title = models.CharField(max_length=200)

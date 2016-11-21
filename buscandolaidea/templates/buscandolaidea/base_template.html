@@ -32,7 +32,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{% url 'home' %}"
+                                <a href="{% url 'contact:contact' %}"
                                     {% if request.resolver_match.url_name == "contact" %}class="active"{% endif %}
                                 >
                                     Contacto

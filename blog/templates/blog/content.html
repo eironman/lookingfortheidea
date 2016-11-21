@@ -75,7 +75,7 @@
                     </div>
                 {% endif %}
 
-                <form class="mt50 comment-form" action="{% url 'blog:comment' post.id %}" method="post">
+                <form class="mt50 form" action="{% url 'blog:comment' post.id %}" method="post">
                     <fieldset>
                         <legend class="mb10">¡Deja tu comentario!</legend>
                         {% csrf_token %}
