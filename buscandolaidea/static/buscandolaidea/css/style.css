@@ -166,7 +166,6 @@ header nav li a.active{
 
 /* footer */
 footer{
-  text-align: right;
   color: #fff;
   background-color: #3d4140;
 }
@@ -175,6 +174,11 @@ footer p{
 }
 footer a{
     color: #fff;
+}
+footer .linkedin{
+    display: block;
+    float: right;
+    margin: 7px 0px 0px 15px;
 }
 /* sticky footer */
 html, body {

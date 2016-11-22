@@ -33,6 +33,8 @@
 }
 
 /* shorteners */
+.fleft {float: left;}
+.fright {float: right;}
 .relative {position: relative;}
 .clearfix {overflow: auto; zoom: 1;}
 .block {display: block;}
