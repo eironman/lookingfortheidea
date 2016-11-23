@@ -43,12 +43,12 @@ class Post(models.Model):
     main_image = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, null=True)
 
     def save(self):
-        """Overwrite save method to create different image size"""
+        """Overwrite save method to create different image sizes"""
         super(Post, self).save()
         if self.main_image:
-            create_thumbnail(self.main_image.path, settings.THUMBNAIL_BIG, '_big')
-            create_thumbnail(self.main_image.path, settings.THUMBNAIL_MEDIUM, '_medium')
-            create_thumbnail(self.main_image.path, settings.THUMBNAIL_SMALL, '_small')
+            create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_BIG, '_big')
+            create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_MEDIUM, '_medium')
+            create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_SMALL, '_small')
 
     def __str__(self):
         """String representation of the class"""
@@ -70,10 +70,12 @@ class Post(models.Model):
     def image_medium(self):
         return self.image_tag('_medium')
     image_medium.allow_tags = True
+    image_medium.short_description = ''
 
     def image_small(self):
         return self.image_tag('_small')
     image_small.allow_tags = True
+    image_small.short_description = ''
 
     def short_content(self):
         """Returns a short version of the post content"""
@@ -111,9 +113,9 @@ class PostMedia(models.Model):
         """Overwrite save method to resize image"""
         super(PostMedia, self).save()
         if self.url:
-            create_thumbnail(self.url.path, settings.THUMBNAIL_BIG, '_big')
-            create_thumbnail(self.url.path, settings.THUMBNAIL_MEDIUM, '_medium')
-            create_thumbnail(self.url.path, settings.THUMBNAIL_SMALL, '_small')
+            create_thumbnail(self.url.path, settings.BLOG_THUMBNAIL_BIG, '_big')
+            create_thumbnail(self.url.path, settings.BLOG_THUMBNAIL_MEDIUM, '_medium')
+            create_thumbnail(self.url.path, settings.BLOG_THUMBNAIL_SMALL, '_small')
 
     def image_tag(self, size=None):
         if self.url:
@@ -135,6 +137,7 @@ class PostMedia(models.Model):
     def image_small(self):
         return self.image_tag('_small')
     image_small.allow_tags = True
+    image_small.short_description = 'Image'
 
     def image_url_big(self):
         return get_thumbnail_path(self.url.url, '_big')

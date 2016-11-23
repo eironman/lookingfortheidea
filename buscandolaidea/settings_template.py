@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'buscandolaidea.apps.BuscandolaideaConfig',
     'blog.apps.BlogConfig',
     'contact.apps.ContactConfig',
+    'visitorsbook.apps.VisitorsbookConfig',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,15 +138,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Relative path that handles the media served from MEDIA_ROOT
 MEDIA_URL = '/media/'
 
+# NOT FOR PRODUCTION - Instead of sending an email, prints it in the stdout
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# For production, specify EMAIL_HOST  and EMAIL_PORT (https://docs.djangoproject.com/en/1.10/topics/email/#module-django.core.mail)
 
-# Project settings
+# Blog settings
 BLOG_IMAGES_STORAGE_DIRECTORY = 'blog/%Y/%m/%d/'
 BLOG_LOAD_JQUERY = False
-THUMBNAIL_SMALL = (80, 45)
-THUMBNAIL_MEDIUM = (300, 250)
-THUMBNAIL_BIG = (800, 600)
+BLOG_THUMBNAIL_SMALL = (80, 45)
+BLOG_THUMBNAIL_MEDIUM = (300, 250)
+BLOG_THUMBNAIL_BIG = (800, 600)
 
+# Vistor's book settings
+VISITORS_BOOK_IMAGES_STORAGE_DIRECTORY = 'visitorsbook/%Y/%m/%d/'
+VISITORS_BOOK_MESSAGE_IMAGE_SIZE = (300, 250)
 
 
 

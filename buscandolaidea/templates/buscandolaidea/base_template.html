@@ -38,6 +38,13 @@
                                     Contacto
                                 </a>
                             </li>
+                            <li>
+                                <a href="{% url 'visitorsbook:visitorsbook' %}"
+                                    {% if request.resolver_match.url_name == "visitorsbook" %}class="active"{% endif %}
+                                >
+                                    Libro de visitas
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -85,5 +92,6 @@
                 </p>
             </div>
         </footer>
+        {% block bottom %}{% endblock %}
     </body>
 </html>

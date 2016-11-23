@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from .models import ContactMessage
 
+
 def contact(request):
     """Contact page"""
     return render(request, 'contact/contact.html')
@@ -28,7 +29,7 @@ def message(request):
             email=email,
             message=message
         )
-        contact_message.save()
+        contact_message.sa
 
         # Send message
         send_mail(

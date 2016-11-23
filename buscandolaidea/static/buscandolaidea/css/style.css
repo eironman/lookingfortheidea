@@ -136,6 +136,9 @@ header nav li a.active{
     padding: 10px 5px;
     box-sizing: border-box;
 }
+.form input[type=text] {
+    height: 50px;
+}
 .form input[type=submit] {
     border: 0;
     padding: 10px 15px;
@@ -152,16 +155,38 @@ header nav li a.active{
 }
 
 /* contact */
-.contact-form input[name="name"],
-.contact-form input[name="email"] {
-    height: 50px;
-}
+
 .contact-form img {
     border: 1px solid #e1e2e2;
 }
 @media (max-width: 767px) {
     [class*="col-"] {width: 100%; margin-bottom: 10px;}
     [class*="col-"] + [class*="col-"] {margin-left: 0;}
+}
+
+/* visitor's book */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    padding: 10px 15px;
+    color: white;
+    background-color: #fa4657;
+    display: inline-block;
+	cursor: pointer;
+}
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
 }
 
 /* footer */
