@@ -94,12 +94,18 @@
                 <h3 class="mb5">Otros artículos</h3>
                 {% if post_list %}
                     <ul>
-                        {% for post in post_list %}
+                        {% for other_post in post_list %}
                             <li class="mb10">
                                 <p>
-                                    <a class="fs14" href="{% url 'blog:content' post.id %}">{{ post.title }}</a>
+                                    {% if other_post.id == post.id %}
+                                        {{ other_post.title }}
+                                    {% else %}
+                                        <a class="fs14" href="{% url 'blog:content' other_post.id %}">
+                                            {{ other_post.title }}
+                                        </a>
+                                    {% endif %}
                                     <br />
-                                    <span class="date">{{ post.pub_date }}</span>
+                                    <span class="date">{{ other_post.pub_date }}</span>
                                 </p>
                             </li>
                         {% endfor %}
