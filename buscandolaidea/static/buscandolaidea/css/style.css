@@ -1,0 +1,219 @@
+/*body {font-family: 'Roboto', sans-serif; color: #3d4140;}*/
+body {
+  font-family: 'Roboto Slab', serif;
+  color: #3d4140;
+}
+p, h3 {line-height: 1.4;}
+p {font-weight: 300; font-size: 14px;}
+a {text-decoration: none; color: #006CAC}
+a:hover {color: #3d4140;}
+.separator-a {height: 1px; background-color: #e1e2e2;}
+.text-color-a {color: #fa4657}
+.date {
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* header */
+header {
+  border-top: 6px solid #0099f5;
+  padding: 50px 0;
+}
+header .mobile_menu_icon {
+    display: none;
+}
+header nav ul {
+  display: inline-block;
+  float: right;
+}
+header nav ul::after {
+  clear: left;
+}
+header nav li {
+  float: left;
+  padding: 20px 20px 0;
+  height: 40px;
+  border-right: 1px solid #e1e2e2;
+}
+header nav li:first-child {
+    padding-left: 0px;
+}
+header nav li:last-child {
+  border: none;
+  padding-right: 0;
+}
+header nav li a {
+  text-transform: uppercase;
+  color: #0099f5;
+}
+header nav li a.active{
+  color: #3d4140;
+}
+@media (max-width: 767px) {
+    header {
+        padding: 10px 0;
+    }
+    header .container {
+        padding: 0;
+    }
+    header [class*="col-"] {width: 100%; margin-bottom: 20px;}
+    header [class*="col-"] + [class*="col-"] {margin-left: 0;}
+    header .mobile_menu_icon {
+        display: block;
+        cursor: pointer;
+        width: 5%;
+        position: absolute;
+        top: 10px;
+        right: 0;
+    }
+    header .logo {
+        width: 10%;
+    }
+    header nav {
+        display: none;
+        margin-bottom: 0px !important;
+        font-size: 12px;
+    }
+    header nav ul {
+        float: none;
+        display: block;
+    }
+    header nav li {
+      padding: 0px;
+      height: auto;
+      border-right: none;
+      float: none;
+    }
+    header nav li a {
+        display: block;
+        padding-top: 20px;
+    }
+    header nav li:first-child a{
+        padding: 0px;
+    }
+}
+@media (max-width: 479px) {
+    header .logo {
+        width: 15%;
+    }
+    header .mobile_menu_icon {
+        width: 6%
+    }
+}
+
+/* content */
+.intro {
+  text-align: justify;
+}
+.intro-box img {
+    width: 100%;
+}
+.post {
+  text-align: justify;
+}
+.post .main-image-container {
+    max-height: 400px;
+    overflow: hidden;
+    border: 1px solid #e1e2e2;
+    margin-bottom: 10px;
+}
+.post .main-image-container img {
+  width: 100%;
+  vertical-align: bottom;
+}
+.post .post-content p {
+  font-size: 15px;
+}
+.form legend {
+    line-height: 1.4;
+}
+.form input[type=text],
+.form textarea {
+    padding: 0;
+    width: 100%;
+    border: none;
+    background-color: #e1e2e2;
+    margin-bottom: 10px;
+    padding: 10px 5px;
+    box-sizing: border-box;
+}
+.form input[type=text] {
+    height: 50px;
+}
+.form input[type=submit] {
+    border: 0;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #0099f5;
+    cursor: pointer;
+}
+.post .comment-owner,
+.post .date {
+    margin-bottom: 5px;
+}
+.post .comment-owner{
+    font-weight: bold;
+}
+
+/* contact */
+
+.contact-form img {
+    border: 1px solid #e1e2e2;
+}
+@media (max-width: 767px) {
+    [class*="col-"] {width: 100%; margin-bottom: 10px;}
+    [class*="col-"] + [class*="col-"] {margin-left: 0;}
+}
+
+/* visitor's book */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    padding: 10px 15px;
+    color: white;
+    background-color: #fa4657;
+    display: inline-block;
+	cursor: pointer;
+}
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+/* footer */
+footer{
+  color: #fff;
+  background-color: #3d4140;
+}
+footer p{
+  padding-top: 60px;
+}
+footer a{
+    color: #fff;
+}
+footer .linkedin{
+    display: block;
+    float: right;
+    margin: 7px 0px 0px 15px;
+}
+/* sticky footer */
+html, body {
+  height: 100%;
+}
+.sticky-footer-wrapper {
+  min-height: 100%;
+  margin-bottom: -155px;
+}
+footer, .sticky-footer-push {
+  height: 155px;
+}
