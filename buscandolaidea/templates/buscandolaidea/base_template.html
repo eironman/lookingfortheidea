@@ -54,7 +54,11 @@
             <div class="container">
                 <div class="separator-a mb30"></div>
                 {% block primary %}
-                    <h3 class="intro">¡Bienvenido! Si has llegado aquí es porque yo te he pasado el enlace o porque estás completamente perdido. Precisamente, perdido es un estado muy similar al que me encuentro, de ahí la creación de este sitio. Estoy a la búsqueda de una idea, una inspiración, algo, que me motive para dedicarle todo mi esfuerzo y conocimientos. Puede que nunca ocurra, puede que sea tomando un helado en mi casa, o puede que lo encuentre viajando, y créeme que tomar helado y viajar lo he intentado, mucho, sobretodo comer helado. Como en esta vida hay que ser perseverante, voy a continuar haciendo ambas cosas, así que te animo a leer mis historias y ayudarme a encontrar "la idea".</h3>
+                    <h3 class="intro">
+                        ¡Bienvenido! Si has llegado aquí es porque yo te he pasado el enlace o porque estás completamente perdido.
+                        <span> Precisamente, perdido es un estado muy similar al que me encuentro, de ahí la creación de este sitio. Estoy a la búsqueda de una idea, una inspiración, algo, que me motive para dedicarle todo mi esfuerzo y conocimientos. Puede que nunca ocurra, puede que sea tomando un helado en mi casa, o puede que lo encuentre viajando, y créeme que tomar helado y viajar lo he intentado, mucho, sobretodo comer helado. Como en esta vida hay que ser perseverante, voy a continuar haciendo ambas cosas, así que te animo a leer mis historias y ayudarme a encontrar "la idea".</span>
+                    </h3>
+                    <div class="more_intro"><a href="javascript:void(0)">más</a></div>
                     {% if post_list %}
                         {% for post in post_list %}
                             {% if forloop.counter0|divisibleby:3 %}

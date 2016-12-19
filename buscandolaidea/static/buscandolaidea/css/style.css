@@ -105,6 +105,20 @@ header nav li a.active{
 .intro {
   text-align: justify;
 }
+.more_intro {
+    display: none;
+}
+@media (max-width: 767px) {
+    .intro span {
+        display: none;
+    }
+    .more_intro {
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        padding-top: 5px;
+    }
+}
 .intro-box img {
     width: 100%;
 }
