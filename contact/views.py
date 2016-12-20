@@ -35,10 +35,10 @@ def message(request):
         # Send message
         email = EmailMessage(
             '[Buscando La Idea] Mensaje de ' + name,
-            'Correo: %s\n\nMensaje:\n%s' % (email, message),
-            'mailgun@buscandolaidea.com',
-            ['aaron.amengual@gmail.com'],
-            reply_to=[email]
+            message,
+            'info@buscandolaidea.com',
+            ['info@buscandolaidea.com', email],
+            reply_to=['info@buscandolaidea.com']
         )
         email.send()
 
