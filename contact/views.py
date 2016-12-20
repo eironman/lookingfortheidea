@@ -36,7 +36,7 @@ def message(request):
         email = EmailMessage(
             '[Buscando La Idea] Mensaje de ' + name,
             'Correo: %s\n\nMensaje:\n%s' % (email, message),
-            'info@buscandolaidea.com',
+            'mailgun@buscandolaidea.com',
             ['aaron.amengual@gmail.com'],
             reply_to=[email]
         )
