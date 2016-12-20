@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from adminsortable2.admin import SortableInlineAdminMixin
 from .models import Post, PostComment, PostMedia
 
 
@@ -15,7 +16,7 @@ class PostCommentInline(admin.TabularInline):
     model = PostComment
 
 
-class PostMediaInline(admin.TabularInline):
+class PostMediaInline(SortableInlineAdminMixin, admin.TabularInline):
     """Media inside Post admin"""
     extra = 5
     model = PostMedia
