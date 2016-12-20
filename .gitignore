@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+.idea
+bli_env/
+static/
+media/
+inspiration/
+buscandolaidea/settings.py
+restart.sh
+start.sh
+stop.sh
