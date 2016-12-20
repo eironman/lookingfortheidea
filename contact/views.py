@@ -31,12 +31,13 @@ def message(request):
             message=message
         )
         contact_message.save()
+        print(contact_message)
 
         # Send message
         email = EmailMessage(
             '[Buscando La Idea] Mensaje de ' + name,
             'Correo: %s\n\nMensaje:\n%s' % (email, message),
-            'aaron.amengual@gmail.com',
+            'info@buscandolaidea.com',
             ['aaron.amengual@gmail.com'],
             reply_to=[email]
         )
