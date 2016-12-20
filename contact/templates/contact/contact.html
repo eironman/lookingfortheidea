@@ -1,0 +1,34 @@
+{% extends 'buscandolaidea/base_template.html' %}
+{% load staticfiles %}
+{% block pagetitle %} - Contacto{% endblock %}
+
+{% block primary %}
+
+<form class="form contact-form" action="{% url 'contact:message' %}" method="post">
+    <fieldset>
+        <legend class="mb20">¿Quieres contactarme? Completa el formulario y contestaré enseguida :)</legend>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                {% if error_message %}
+                    <p class="mb10 text-color-a">{{ error_message }}</p>
+                {% endif %}
+                {% if success_message %}
+                    <p class="mb10">{{ success_message }}</p>
+                {% endif %}
+                <input type="text" name="name" value="{{ name }}" placeholder="Nombre*" tabindex="1"/>
+                <br />
+                <input type="text" name="email" value="{{ email }}" placeholder="Correo" tabindex="2"/>
+                <br />
+                <textarea name="message" id="message" placeholder="Mensaje*" rows="8" tabindex="3">{{ message }}</textarea>
+                <br />
+                <input type="submit" value="ENVIAR"  tabindex="4"/>
+            </div>
+            <div class="col-6">
+                <img class="w100" src="{% static 'contact/img/mail.jpg' %}" />
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+{% endblock %}
