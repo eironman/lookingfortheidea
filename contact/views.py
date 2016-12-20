@@ -31,7 +31,6 @@ def message(request):
             message=message
         )
         contact_message.save()
-        print(contact_message)
 
         # Send message
         email = EmailMessage(
