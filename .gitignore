@@ -2,7 +2,7 @@
 *.pyo
 .idea
 bli_env/
-static/
+/static/
 media/
 inspiration/
 buscandolaidea/settings.py

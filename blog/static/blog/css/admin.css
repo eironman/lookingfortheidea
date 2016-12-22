@@ -1,0 +1,6 @@
+.mce-tinymce {
+    max-width: 756px !important;
+}
+.mce-tinymce #id_content_ifr{
+    min-height: 350px !important;
+}
