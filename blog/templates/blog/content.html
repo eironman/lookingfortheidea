@@ -75,7 +75,7 @@
                     </div>
                 {% endif %}
 
-                <form class="mt50 form" action="{% url 'blog:comment' post.id %}" method="post">
+                <form class="mt50 form" action="{% url 'blog:comment' post.url %}" method="post">
                     <fieldset>
                         <legend class="mb10">¡Deja tu comentario!</legend>
                         {% csrf_token %}
@@ -100,7 +100,7 @@
                                     {% if other_post.id == post.id %}
                                         {{ other_post.title }}
                                     {% else %}
-                                        <a class="fs14" href="{% url 'blog:content' other_post.id %}">
+                                        <a class="fs14" href="{% url 'blog:content' other_post.url %}">
                                             {{ other_post.title }}
                                         </a>
                                     {% endif %}

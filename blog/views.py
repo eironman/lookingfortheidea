@@ -12,10 +12,10 @@ def posts_list(request):
     return render(request, 'blog/posts_list.html', context)
 
 
-def content(request, post_id):
+def content(request, post_url):
     """Post content"""
-    post = get_object_or_404(Post, id=post_id)
-    post_list = Post.objects.values('id', 'title', 'pub_date').order_by('-pub_date')
+    post = get_object_or_404(Post, url=post_url)
+    post_list = Post.objects.values('url', 'title', 'pub_date').order_by('-pub_date')
     context = {
         'post': post,
         'comments': post.postcomment_set.all(),
@@ -26,9 +26,9 @@ def content(request, post_id):
     return render(request, 'blog/content.html', context)
 
 
-def comment(request, post_id):
+def comment(request, post_url):
     """User comments a post"""
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, url=post_url)
     author = request.POST['author']
     comment_content = request.POST['content']
     # All fields are mandatory
@@ -45,4 +45,4 @@ def comment(request, post_id):
     comment = PostComment(post=post, owner=author, content=comment_content)
     comment.save()
 
-    return HttpResponseRedirect(reverse('blog:content', args=(post_id,)))
+    return HttpResponseRedirect(reverse('blog:content', args=(post_url,)))

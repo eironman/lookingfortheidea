@@ -65,11 +65,11 @@
                                 <div class="row mt30">
                             {% endif %}
                                 <div class="intro-box col-4">
-                                    <a href="{% url 'blog:content' post.id %}">
+                                    <a href="{% url 'blog:content' post.url %}">
                                         {% autoescape off %}{{ post.image_medium }}{% endautoescape %}
                                     </a>
                                     <p class="mt20">
-                                        <a href="{% url 'blog:content' post.id %}">
+                                        <a href="{% url 'blog:content' post.url %}">
                                             {{ post.title }}
                                         </a>
                                     </p>

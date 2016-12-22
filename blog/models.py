@@ -38,6 +38,7 @@ def create_thumbnail(original_image_full_path, size, suffix):
 class Post(models.Model):
     """User posts"""
     title = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, default=None)
     content = models.TextField()
     pub_date = models.DateTimeField('date published', default=timezone.now)
     main_image = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, null=True)
