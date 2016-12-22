@@ -106,7 +106,7 @@ class PostMedia(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     url = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, blank=True, null=True)
     video_id = models.CharField(max_length=200, blank=True)
-    order = models.IntegerField(blank=True, null=True)
+    order = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.CharField(max_length=200, blank=True)
 
     def save(self):
