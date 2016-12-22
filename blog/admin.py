@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib import admin
-from adminsortable2.admin import SortableInlineAdminMixin
 from .models import Post, PostComment, PostMedia
 
 
@@ -16,12 +15,14 @@ class PostCommentInline(admin.TabularInline):
     model = PostComment
 
 
-class PostMediaInline(SortableInlineAdminMixin, admin.TabularInline):
+class PostMediaInline(admin.TabularInline):
     """Media inside Post admin"""
     extra = 5
     model = PostMedia
     fields = ('image_small', 'url', 'video_id','description', 'order')
     readonly_fields = ('image_small',) # image_small has to be in fields and readonly_fields to avoid django error
+    # define the sortable
+    sortable_field_name = "order"
 
 
 @admin.register(Post)
