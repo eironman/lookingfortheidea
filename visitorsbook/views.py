@@ -39,8 +39,8 @@ def publish(request):
         # Send email
         send_mail(
             '[Buscando La Idea] Mensaje en el libro de visitas',
-            'Nombre: %s\n\nMensaje:\n%s' % (name, message),
-            'aaron.amengual@gmail.com',
+            'Nombre:\n%s\n\nMensaje:\n%s' % (name, message),
+            'info@buscandolaidea.com',
             ['aaron.amengual@gmail.com'],
             fail_silently=True
         )

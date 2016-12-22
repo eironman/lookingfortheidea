@@ -68,7 +68,11 @@
                                     <a href="{% url 'blog:content' post.id %}">
                                         {% autoescape off %}{{ post.image_medium }}{% endautoescape %}
                                     </a>
-                                    <p class="mt20"><a href="#">{{ post.title }}</a></p>
+                                    <p class="mt20">
+                                        <a href="{% url 'blog:content' post.id %}">
+                                            {{ post.title }}
+                                        </a>
+                                    </p>
                                     <div class="separator-a mt20"></div>
                                 </div>
                             {% if forloop.counter|divisibleby:3 %}
