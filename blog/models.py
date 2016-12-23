@@ -4,6 +4,7 @@ from PIL import Image
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 from django.template.defaultfilters import truncatewords
 
 
@@ -38,18 +39,27 @@ def create_thumbnail(original_image_full_path, size, suffix):
 class Post(models.Model):
     """User posts"""
     title = models.CharField(max_length=200)
-    url = models.CharField(max_length=200, default=None)
+    url = models.CharField(max_length=200, default=None, blank=True)
     content = models.TextField()
     pub_date = models.DateTimeField('date published', default=timezone.now)
     main_image = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, null=True)
 
     def save(self):
-        """Overwrite save method to create different image sizes"""
+        """Overwrite save method"""
+
+        # create url slug
+        if not self.url:
+            self.url = self.title
+        self.url = slugify(self.url)
+
         super(Post, self).save()
+
+        # create different image sizes
         if self.main_image:
             create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_BIG, '_big')
             create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_MEDIUM, '_medium')
             create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_SMALL, '_small')
+
 
     def __str__(self):
         """String representation of the class"""
