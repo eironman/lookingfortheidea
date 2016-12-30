@@ -8,12 +8,15 @@
         <script type='text/javascript' src="{% static 'blog/js/jquery-1.12.3.min.js' %}"></script>
         {% endif %}
         <script type='text/javascript' src="{% static 'blog/lib/unitegallery/js/unitegallery.min.js' %}"></script>
-        <script type='text/javascript' src="{% static 'blog/lib/unitegallery/themes/default/ug-theme-default.js' %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'blog/lib/unitegallery/css/unite-gallery.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'blog/lib/unitegallery/themes/default/ug-theme-default.css' %}" />
+        <script type='text/javascript' src="{% static 'blog/lib/unitegallery/themes/tiles/ug-theme-tiles.js' %}"></script>
+
         <script type="text/javascript">
             jQuery(document).ready(function(){
-                jQuery("#gallery").unitegallery();
+                jQuery("#gallery").unitegallery({
+                    gallery_theme: "tiles",
+		 				tiles_type: "justified"
+                });
             });
         </script>
     {% endif %}
@@ -39,7 +42,7 @@
                         {% for media in post_media %}
                             {% if media.video_id %}
                                 {% if media.url %}
-                                    <img src="{{ media.image_url_small }}"
+                                    <img src="{{ media.image_url_medium }}"
                                         data-image="{{ MEDIA_URL }}{{ media.url }}"
                                         data-type="youtube"
                                         data-videoid="{{ media.video_id }}"
@@ -50,7 +53,7 @@
                                         data-description="{{ media.description }}">
                                 {% endif %}
                             {% else %}
-                                <img src="{{ media.image_url_small }}"
+                                <img src="{{ media.image_url_medium }}"
                                     data-image="{{ media.image_url_big }}"
                                     data-description="{{ media.description }}">
                             {% endif %}

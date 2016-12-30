@@ -2251,9 +2251,10 @@ function UGFunctions(){
 	 * strip tags from string
 	 */
 	this.stripTags = function(html){
-		
-		var text = html.replace(/(<([^>]+)>)/ig,"");
-		
+		if (html) {
+		    var text = html.replace(/(<([^>]+)>)/ig,"");
+		}
+
 		return(text);
 	}
 	
