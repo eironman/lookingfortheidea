@@ -22,7 +22,7 @@ class PostMediaInline(admin.TabularInline):
     fields = ('image_small', 'url', 'video_id','description', 'order')
     readonly_fields = ('image_small',) # image_small has to be in fields and readonly_fields to avoid django error
     # define the sortable
-    sortable_field_name = "order"
+    # sortable_field_name = "order"
 
 
 @admin.register(Post)
