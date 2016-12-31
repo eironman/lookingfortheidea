@@ -15,7 +15,10 @@
             jQuery(document).ready(function(){
                 jQuery("#gallery").unitegallery({
                     gallery_theme: "tiles",
-		 				tiles_type: "justified"
+		 			tiles_type: "justified",
+		 			tile_enable_textpanel:true,
+                    tile_textpanel_title_text_align: "center",
+                    tile_textpanel_always_on:true,
                 });
             });
         </script>
@@ -46,16 +49,19 @@
                                         data-image="{{ MEDIA_URL }}{{ media.url }}"
                                         data-type="youtube"
                                         data-videoid="{{ media.video_id }}"
-                                        data-description="{{ media.description }}">
+                                        data-description="{{ media.description }}"
+                                        alt="{{ media.description }}">
                                 {% else %}
                                     <img data-type="youtube"
                                         data-videoid="{{ media.video_id }}"
-                                        data-description="{{ media.description }}">
+                                        data-description="{{ media.description }}"
+                                        alt="{{ media.description }}">
                                 {% endif %}
                             {% else %}
                                 <img src="{{ media.image_url_medium }}"
                                     data-image="{{ media.image_url_big }}"
-                                    data-description="{{ media.description }}">
+                                    data-description="{{ media.description }}"
+                                    alt="{{ media.description }}">
                             {% endif %}
                         {% endfor %}
                     </div>

@@ -2251,9 +2251,8 @@ function UGFunctions(){
 	 * strip tags from string
 	 */
 	this.stripTags = function(html){
-		if (html) {
-		    var text = html.replace(/(<([^>]+)>)/ig,"");
-		}
+
+		var text = html.replace(/(<([^>]+)>)/ig,"");
 
 		return(text);
 	}
@@ -2435,7 +2434,7 @@ function UGThumbsGeneral(){
 			 for(var i=0;i<numItems;i++){
 				 
 				 var objItem = g_arrItems[i];
-				 
+
 				 var classAddition = "";
 				 if(g_temp.customThumbs == false)
 					 classAddition = " ug-thumb-generated";
