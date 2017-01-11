@@ -135,8 +135,16 @@ header nav li a.active{
   width: 100%;
   vertical-align: bottom;
 }
-.post .post-content p {
+.post .post-content ul {
+  list-style: disc;
+  margin-left: 40px;
+}
+.post .post-content p,
+.post .post-content li{
   font-size: 15px;
+}
+.post .post-content li {
+  font-weight: 300;
 }
 .form legend {
     line-height: 1.4;
