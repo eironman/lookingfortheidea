@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.html import strip_tags
+from ratelimit.decorators import ratelimit
 from bs4 import BeautifulSoup
 from .models import Post, PostComment
 
@@ -28,6 +28,7 @@ def content(request, post_url):
     return render(request, 'blog/content.html', context)
 
 
+@ratelimit(key='ip', rate='4/h', block=True)
 def comment(request, post_url):
     """User comments a post"""
     post = get_object_or_404(Post, url=post_url)
