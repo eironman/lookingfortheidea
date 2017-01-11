@@ -28,6 +28,7 @@ def content(request, post_url):
     return render(request, 'blog/content.html', context)
 
 
+# Raise forbidden if an ip makes more than 4 comments per hour
 @ratelimit(key='ip', rate='4/h', block=True)
 def comment(request, post_url):
     """User comments a post"""
