@@ -91,9 +91,18 @@
                         {% if error_message %}
                             <p class="mb10 text-color-a">{{ error_message }}</p>
                         {% endif %}
-                        <input type="text" name="author" id="author" value="{{ author }}" placeholder="Nombre"/>
+                        <input
+                                type="text"
+                                name="comment_author"
+                                id="author"
+                                value="{{ comment_author }}"
+                                placeholder="Nombre"/>
                         <br />
-                        <textarea name="content" id="content" placeholder="Comentario" rows="6">{{ comment_content }}</textarea>
+                        <textarea
+                                name="comment_content"
+                                id="content"
+                                placeholder="Comentario"
+                                rows="6">{{ comment_content }}</textarea>
                         <br />
                         <input type="submit" value="PUBLICAR" />
                     </fieldset>

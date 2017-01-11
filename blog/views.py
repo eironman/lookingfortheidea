@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.html import strip_tags
+from bs4 import BeautifulSoup
 from .models import Post, PostComment
 
 
@@ -29,20 +31,35 @@ def content(request, post_url):
 def comment(request, post_url):
     """User comments a post"""
     post = get_object_or_404(Post, url=post_url)
-    author = request.POST['author']
-    comment_content = request.POST['content']
+    comment_author = request.POST['comment_author']
+    comment_content = request.POST['comment_content']
+
     # All fields are mandatory
-    if not author or not comment_content:
+    if not comment_author or not comment_content:
         context = {
             'post': post,
-            'author': author,
+            'comment_author': comment_author,
             'comment_content': comment_content,
             'error_message': "Completa todos los campos por favor"
         }
         return render(request, 'blog/content.html', context)
 
+    # HTML tags are not allowed
+    author_has_html_tags = \
+        bool(BeautifulSoup(comment_author, "html.parser").find())
+    content_has_html_tags =\
+        bool(BeautifulSoup(comment_content, "html.parser").find())
+    if author_has_html_tags or content_has_html_tags:
+        context = {
+            'post': post,
+            'comment_author': comment_author,
+            'comment_content': comment_content,
+            'error_message': "Etiquetas HTML no están permitidas"
+        }
+        return render(request, 'blog/content.html', context)
+
     # Save comment
-    comment = PostComment(post=post, owner=author, content=comment_content)
+    comment = PostComment(post=post, owner=comment_author, content=comment_content)
     comment.save()
 
     return HttpResponseRedirect(reverse('blog:content', args=(post_url,)))
