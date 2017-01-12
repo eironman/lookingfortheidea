@@ -17,7 +17,7 @@ def posts_list(request):
 def content(request, post_url):
     """Post content"""
     post = get_object_or_404(Post, url=post_url)
-    post_list = Post.objects.values('url', 'title', 'pub_date').order_by('-pub_date')
+    post_list = Post.objects.filter(publish=True).values('url', 'title', 'pub_date').order_by('-pub_date')
     context = {
         'post': post,
         'comments': post.postcomment_set.filter(parent_id=None),

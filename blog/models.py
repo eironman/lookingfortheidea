@@ -43,6 +43,7 @@ class Post(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField('date published', default=timezone.now)
     main_image = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, null=True)
+    publish = models.BooleanField(default=False)
 
     def save(self):
         """Overwrite save method"""
@@ -100,7 +101,7 @@ class Post(models.Model):
 
 class PostComment(models.Model):
     """Comments for posts"""
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, default=None, null=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, default=None, null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     owner = models.CharField(max_length=100)
     content = models.CharField(max_length=1000)
