@@ -169,12 +169,36 @@ header nav li a.active{
     background-color: #0099f5;
     cursor: pointer;
 }
-.post .comment-owner,
 .post .date {
     margin-bottom: 5px;
 }
 .post .comment-owner{
     font-weight: bold;
+}
+.post .comment-replies {
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+@media (max-width: 767px) {
+    .post .comment-replies{
+        padding-left: 10px;
+    }
+}
+.post .comment-replies .comment-owner{
+    text-align: right;
+    margin-bottom: 3px;
+}
+.post .comment-replies .comment-content{
+    margin-bottom: 0px;
+}
+@media (max-width: 767px) {
+    .post .comment-replies .comment-owner{
+        text-align: left;
+    }
+}
+.post .user-comment .reply-action {
+    font-size: 12px;
 }
 
 /* contact */

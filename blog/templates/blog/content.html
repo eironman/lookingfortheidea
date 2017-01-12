@@ -10,7 +10,6 @@
         <script type='text/javascript' src="{% static 'blog/lib/unitegallery/js/unitegallery.min.js' %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'blog/lib/unitegallery/css/unite-gallery.css' %}" />
         <script type='text/javascript' src="{% static 'blog/lib/unitegallery/themes/tiles/ug-theme-tiles.js' %}"></script>
-
         <script type="text/javascript">
             jQuery(document).ready(function(){
                 jQuery("#gallery").unitegallery({
@@ -23,6 +22,7 @@
             });
         </script>
     {% endif %}
+    <script type='text/javascript' src="{% static 'blog/js/blog_scripts.js' %}"></script>
 {% endblock %}
 
 {% block primary %}
@@ -67,23 +67,48 @@
                     </div>
                 {% endif %}
 
+                <!-- COMMENTS -->
                 {% if comments %}
                     <div class="mt50">
                         <h3>Lo que dice la gente</h3>
                         <ul>
                             {% for comment in comments %}
-                                <li class="mt10">
+                                <li class="mt20 user-comment">
                                     <p class="comment-owner">{{ comment.owner }}<p/>
                                     <p class="date">{{ comment.pub_date }}</p>
                                     <div class="comment-content">
                                         {% autoescape off %}{{ comment.content|linebreaks }}{% endautoescape %}
                                     </div>
+
+                                    <!-- REPLIES -->
+                                    <div class="comment-replies">
+                                    {% for reply in comment.postcomment_set.all.reverse %}
+                                        <div class="mt10 row">
+                                            <div class="col-2 comment-owner">{{ reply.owner }}</div>
+                                            <div class="col-10">
+                                                <div class="comment-content">
+                                                    {% autoescape off %}{{ reply.content|linebreaks }}{% endautoescape %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+
+                                    <p class="reply-action">
+                                        <a
+                                            href="javascript:void(0)"
+                                            class="reply-trigger"
+                                            data-comment-id="{{ comment.id }}">
+                                            Responder
+                                        </a>
+                                    </p>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
                 {% endif %}
 
+                <!-- COMMENT FORM -->
                 <form class="mt50 form" action="{% url 'blog:comment' post.url %}" method="post">
                     <fieldset>
                         <legend class="mb10">¡Deja tu comentario!</legend>
@@ -91,16 +116,15 @@
                         {% if error_message %}
                             <p class="mb10 text-color-a">{{ error_message }}</p>
                         {% endif %}
+                        <input type="hidden" name="comment_parent" class="comment_parent">
                         <input
                                 type="text"
                                 name="comment_author"
-                                id="author"
                                 value="{{ comment_author }}"
                                 placeholder="Nombre"/>
                         <br />
                         <textarea
                                 name="comment_content"
-                                id="content"
                                 placeholder="Comentario"
                                 rows="6">{{ comment_content }}</textarea>
                         <br />
@@ -108,6 +132,8 @@
                     </fieldset>
                 </form>
             </div>
+
+            <!-- OTHER POSTS LIST -->
             <div class="col-3">
                 <h3 class="mb5">Otros artículos</h3>
                 {% if post_list %}

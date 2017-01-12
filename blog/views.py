@@ -35,11 +35,13 @@ def comment(request, post_url):
     post = get_object_or_404(Post, url=post_url)
     comment_author = request.POST['comment_author']
     comment_content = request.POST['comment_content']
+    comment_parent = request.POST['comment_parent']
 
     # All fields are mandatory
     if not comment_author or not comment_content:
         context = {
             'post': post,
+            'comments': post.postcomment_set.all(),
             'comment_author': comment_author,
             'comment_content': comment_content,
             'error_message': "Completa todos los campos por favor"
@@ -54,6 +56,7 @@ def comment(request, post_url):
     if author_has_html_tags or content_has_html_tags:
         context = {
             'post': post,
+            'comments': post.postcomment_set.all(),
             'comment_author': comment_author,
             'comment_content': comment_content,
             'error_message': "Etiquetas HTML no están permitidas"
@@ -61,7 +64,7 @@ def comment(request, post_url):
         return render(request, 'blog/content.html', context)
 
     # Save comment
-    comment = PostComment(post=post, owner=comment_author, content=comment_content)
+    comment = PostComment(post=post, owner=comment_author, content=comment_content, parent_id=comment_parent)
     comment.save()
 
     return HttpResponseRedirect(reverse('blog:content', args=(post_url,)))
