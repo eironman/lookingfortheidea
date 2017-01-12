@@ -20,7 +20,7 @@ def content(request, post_url):
     post_list = Post.objects.values('url', 'title', 'pub_date').order_by('-pub_date')
     context = {
         'post': post,
-        'comments': post.postcomment_set.all(),
+        'comments': post.postcomment_set.filter(parent_id=None),
         'post_media': post.postmedia_set.all(),
         'post_list': post_list,
         'load_jquery': settings.BLOG_LOAD_JQUERY
