@@ -11,8 +11,17 @@ from django.template.defaultfilters import truncatewords
 def get_thumbnail_path(original_image_full_path, suffix):
     """Returns the path to a thumbnail"""
     original_image_path = os.path.split(original_image_full_path)[0] + '/'
-    original_image_name = os.path.split(original_image_full_path)[1].split('.')[0]
-    original_image_extension = os.path.split(original_image_full_path)[1].split('.')[1]
+    original_image_full_name = os.path.split(original_image_full_path)[1]
+
+    # split in an array in case image name has several dots
+    image_name_split_array = original_image_full_name.split('.')
+
+    # extension
+    original_image_extension = image_name_split_array[len(image_name_split_array) - 1]
+
+    # name
+    original_image_name = "_".join(image_name_split_array[0:len(image_name_split_array) - 1])
+
     return original_image_path + original_image_name + suffix + '.' + original_image_extension
 
 
