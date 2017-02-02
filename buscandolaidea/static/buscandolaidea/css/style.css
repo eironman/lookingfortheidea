@@ -119,6 +119,12 @@ header nav li a.active{
         padding-top: 5px;
     }
 }
+.intro-box a:first-child {
+    display: inline-block;
+    max-height: 200px;
+    overflow: hidden;
+    width: 100%;
+}
 .intro-box img {
     width: 100%;
 }
