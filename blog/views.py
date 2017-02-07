@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.conf import settings
+from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
@@ -37,7 +38,7 @@ def comment(request, post_url):
     comment_content = request.POST['comment_content']
     comment_parent = request.POST['comment_parent']
 
-    # All fields are mandatory
+    # Mandatory fields
     if not comment_author or not comment_content:
         context = {
             'post': post,
@@ -64,7 +65,16 @@ def comment(request, post_url):
         return render(request, 'blog/content.html', context)
 
     # Save comment
-    comment = PostComment(post=post, owner=comment_author, content=comment_content, parent_id=comment_parent)
-    comment.save()
+    comment_object = PostComment(post=post, owner=comment_author, content=comment_content, parent_id=comment_parent)
+    comment_object.save()
+
+    # Send comment
+    email = EmailMessage(
+        '[Buscando La Idea] Comentario de ' + comment_author,
+        comment_content,
+        'info@buscandolaidea.com',
+        ['info@buscandolaidea.com']
+    )
+    email.send()
 
     return HttpResponseRedirect(reverse('blog:content', args=(post_url,)))

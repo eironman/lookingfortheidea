@@ -3,7 +3,6 @@ from django.core.mail import EmailMessage
 from .models import ContactMessage
 
 
-
 def contact(request):
     """Contact page"""
     return render(request, 'contact/contact.html')
@@ -13,13 +12,13 @@ def message(request):
     """Contact message"""
     name = request.POST['name']
     user_email = request.POST['email']
-    message = request.POST['message']
+    message_content = request.POST['message']
 
-    if not name or not message:
+    if not name or not message_content:
         context = {
             'name': name,
             'email': user_email,
-            'message': message,
+            'message': message_content,
             'error_message': "¡Ups! ¿Podrías decirme tu nombre y el mensaje por favor?"
         }
     else:
@@ -28,7 +27,7 @@ def message(request):
         contact_message = ContactMessage(
             name=name,
             email=user_email,
-            message=message
+            message=message_content
         )
         contact_message.save()
 
@@ -39,7 +38,7 @@ def message(request):
 
         email = EmailMessage(
             '[Buscando La Idea] Mensaje de ' + name,
-            message,
+            message_content,
             'info@buscandolaidea.com',
             recipients,
             reply_to=['info@buscandolaidea.com']
