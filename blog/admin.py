@@ -17,7 +17,7 @@ class PostCommentInline(admin.TabularInline):
 
 class PostMediaInline(admin.TabularInline):
     """Media inside Post admin"""
-    extra = 5
+    extra = 10
     model = PostMedia
     fields = ('image_small', 'url', 'video_id','description', 'order')
     readonly_fields = ('image_small',) # image_small has to be in fields and readonly_fields to avoid django error
