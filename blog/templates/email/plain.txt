@@ -1,0 +1,3 @@
+{{content}}
+
+Artículo: {{blog_post_url}}

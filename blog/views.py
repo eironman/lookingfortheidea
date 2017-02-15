@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404, render
 from django.conf import settings
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
 from bs4 import BeautifulSoup
@@ -69,12 +70,24 @@ def comment(request, post_url):
     comment_object.save()
 
     # Send comment
-    email = EmailMessage(
+
+    # Build post url
+    location = reverse('blog:post_content', args=[post_url])
+    url = request.build_absolute_uri(location)
+
+    # Build email content
+    msg_plain = render_to_string('email/plain.txt', {'content': comment_content, 'blog_post_url': url})
+    msg_html =\
+        render_to_string('email/html.html', {'content': comment_content, 'blog_post_url': url, 'title': post.title})
+
+    # Send it
+    email = EmailMultiAlternatives(
         '[Buscando La Idea] Comentario de ' + comment_author,
-        comment_content,
+        msg_plain,
         'info@buscandolaidea.com',
         ['info@buscandolaidea.com']
     )
+    email.attach_alternative(msg_html, 'text/html')
     email.send()
 
-    return HttpResponseRedirect(reverse('blog:content', args=(post_url,)))
+    return HttpResponseRedirect(reverse('blog:post_content', args=[post_url]))
