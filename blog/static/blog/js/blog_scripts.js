@@ -6,7 +6,7 @@ $(document).on('ready', function() {
         // Prepare the reply form
         var commentId = $(this).data('comment-id');
         var replyForm =
-            $('.form.mt50').clone()
+            $('.comment_form.mt50').clone()
                 .removeClass('mt50')
                 .addClass('mt10');
 
@@ -26,7 +26,7 @@ $(document).on('ready', function() {
     });
 
     // Check mandatory fields
-    $('.container').on('submit', '.form', function() {
+    $('.container').on('submit', '.comment_form', function() {
         var commentAuthor = $(this).find('input[name="comment_author"]').val();
         var commentContent = $(this).find('textarea').val();
         if (commentAuthor == '' || commentContent == '') {

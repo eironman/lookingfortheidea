@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import Post, PostComment, PostMedia
+from .models import Post, PostComment, PostMedia, Subscriber
 
 
 class ContentForm(forms.ModelForm):
@@ -53,3 +53,10 @@ class PostAdmin(admin.ModelAdmin):
             '/static/blog/lib/tinymce/tinymce.min.js',
             '/static/blog/js/tinymce_setup.js',
         )
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    """Blog subscriber"""
+    fields = ('email', 'phone')
+    list_display = ('email', 'phone', 'creation_date')

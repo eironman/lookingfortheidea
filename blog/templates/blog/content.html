@@ -37,6 +37,10 @@
                             {% autoescape off %}{{ post.image_big }}{% endautoescape %}
                         </div>
                     {% endif %}
+
+                    <!-- BUTTON TO SHOW SUBSCRIBE MODAL -->
+                    <input class="form_button w100 mb20" type="button" value="¡ME QUIERO SUSCRIBIR!" />
+
                     <div class="post-content">{% autoescape off %}{{ post.content|linebreaks }}{% endautoescape %}</div>
                 </div>
 
@@ -109,7 +113,7 @@
                 {% endif %}
 
                 <!-- COMMENT FORM -->
-                <form class="mt50 form" action="{% url 'blog:comment' post.url %}" method="post">
+                <form class="mt50 form comment_form" action="{% url 'blog:comment' post.url %}" method="post">
                     <fieldset>
                         <legend class="mb10">¡Deja tu comentario!</legend>
                         {% csrf_token %}
@@ -160,4 +164,32 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block bottom %}
+<div class="opacity_layer"></div>
+<div class="modal">
+    <form class="form" id="subscribe_form">
+        <fieldset>
+            <legend class="mb10">
+                Recibirás un correo/mensaje a tu Whatsapp por cada artículo nuevo.
+            </legend>
+            {% csrf_token %}
+            {% if subserror_message %}
+                <p class="mb10 text-color-a">{{ error_message }}</p>
+            {% endif %}
+            <input
+                    type="text"
+                    name="subscribe_email"
+                    placeholder="Email"/>
+            <p class="mb10">y/o</p>
+            <input
+                    type="text"
+                    name="subscribe_phone"
+                    placeholder="Teléfono"/>
+            <br />
+            <input type="submit" value="¡SÍ, QUIERO!" />
+        </fieldset>
+    </form>
+</div>
 {% endblock %}

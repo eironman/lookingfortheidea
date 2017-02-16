@@ -2,6 +2,7 @@ import datetime
 import os
 from PIL import Image
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -172,3 +173,17 @@ class PostMedia(models.Model):
 
     class Meta:
         ordering = ('order',)
+
+
+class Subscriber(models.Model):
+    """Blog Subscribers"""
+    email = models.CharField(max_length=50, default=None, blank=True)
+    phone = models.CharField(max_length=15, default=None, blank=True)
+    creation_date = models.DateTimeField('creation date', default=timezone.now)
+
+    def clean(self):
+        if not self.email and not self.phone:
+            raise ValidationError('Debes completar o el correo o el teléfono.')
+
+    class Meta:
+        ordering = ('-creation_date',)
