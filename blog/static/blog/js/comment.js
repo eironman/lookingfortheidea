@@ -1,6 +1,6 @@
 $(document).on('ready', function() {
 
-    // Show reply form
+    // Show reply comment form
     $('.reply-trigger').on('click', function() {
         console.log('append');
         // Prepare the reply form
@@ -25,7 +25,7 @@ $(document).on('ready', function() {
         $(this).hide();
     });
 
-    // Check mandatory fields
+    // Check mandatory fields for comment
     $('.container').on('submit', '.comment_form', function() {
         var commentAuthor = $(this).find('input[name="comment_author"]').val();
         var commentContent = $(this).find('textarea').val();

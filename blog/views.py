@@ -1,19 +1,12 @@
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
 from bs4 import BeautifulSoup
-from .models import Post, PostComment
-
-
-def posts_list(request):
-    """Post list"""
-    post_list = Post.objects.order_by('-pub_date')
-    context = {'post_list': post_list}
-    return render(request, 'blog/posts_list.html', context)
+from .models import Post, PostComment, Subscriber
 
 
 def content(request, post_url):
@@ -91,3 +84,43 @@ def comment(request, post_url):
     email.send()
 
     return HttpResponseRedirect(reverse('blog:post_content', args=[post_url]))
+
+
+def posts_list(request):
+    """Post list"""
+    post_list = Post.objects.order_by('-pub_date')
+    context = {'post_list': post_list}
+    return render(request, 'blog/posts_list.html', context)
+
+
+def subscribe(request):
+    """Add a subscriber"""
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
+    country = request.POST.get('country')
+    if phone:
+        phone = '+' + country + phone
+
+    # Check if email or phone are already registered
+    try:
+        subscriber = Subscriber.objects.get(email=email)
+        if subscriber.email:
+            return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Esta dirección de correo ya está suscrita.'})
+    except Subscriber.DoesNotExist:
+        try:
+            subscriber = Subscriber.objects.get(phone=phone)
+            if subscriber.phone:
+                return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Este teléfono ya está suscrito.'})
+        except Subscriber.DoesNotExist:
+            None
+
+    # Create subscriber
+    subscriber_object = Subscriber(email=email, phone=phone)
+    subscriber_object.save()
+    if subscriber_object.id:
+        return JsonResponse({'status': 'ok'})
+    else:
+        return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Hubo un error al crear la suscripción (1).'})
+
+
+

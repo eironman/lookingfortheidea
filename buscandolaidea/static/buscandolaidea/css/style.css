@@ -158,8 +158,11 @@ header nav li a.active{
 }
 .form legend {
     line-height: 1.4;
+    width: 100%; /* fixes ie bug */
 }
 .form input[type=text],
+.form input[type=tel],
+.form input[type=email],
 .form textarea {
     padding: 0;
     width: 100%;
@@ -169,16 +172,27 @@ header nav li a.active{
     padding: 10px 5px;
     box-sizing: border-box;
 }
+.form input[type=email],
+.form input[type=tel],
 .form input[type=text] {
     height: 50px;
 }
-.form_button,
-.form input[type=submit] {
-    border: 0;
+.form_button {
+    border: 1px solid #0099f5;
     padding: 10px 15px;
     color: #fff;
     background-color: #0099f5;
     cursor: pointer;
+}
+.form_button.loading {
+    background: #fff url("../img/loader.svg") center center no-repeat;
+}
+.form input.error {
+    border: 1px solid #fa4657;
+}
+.form_button_b {
+    border: 1px solid #fa4657;
+    background-color: #fa4657;
 }
 .post .date {
     margin-bottom: 5px;
@@ -214,8 +228,21 @@ header nav li a.active{
 
 /* subscribe */
 
-#subscribe_form {
+#subscribe_form .form_button {
+    width: 36%;
+    margin-top: 20px;
+}
 
+#subscribe_form select {
+    float: left;
+    width: 30%;
+    height: 50px;
+    border: none;
+    background-color: #e1e2e2;
+}
+#subscribe_form input[name=subscribe_phone] {
+    float: left;
+    width: 70%;
 }
 
 /* contact */
@@ -285,6 +312,7 @@ footer, .sticky-footer-push {
 /* modal */
 
 .opacity_layer {
+    /*display: none;*/
     position: fixed;
     top: 0;
     left: 0;
@@ -295,6 +323,7 @@ footer, .sticky-footer-push {
     opacity: 0.5;
 }
 .modal {
+    /*display: none;*/
     position: fixed;
     top: 50%;
     left: 50%;
@@ -308,6 +337,7 @@ footer, .sticky-footer-push {
 @media (max-width: 479px) {
     .modal {
         width: 300px;
-        margin-left: -167px;
+        top: 10%;
+        margin: 0 0 0 -167px;
     }
 }
