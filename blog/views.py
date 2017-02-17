@@ -97,16 +97,17 @@ def subscribe(request):
     """Add a subscriber"""
     email = request.POST.get('email')
     phone = request.POST.get('phone')
-    country = request.POST.get('country')
-    if phone:
-        phone = '+' + country + phone
 
     # Check if email or phone are already registered
-    try:
-        subscriber = Subscriber.objects.get(email=email)
-        if subscriber.email:
-            return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Esta dirección de correo ya está suscrita.'})
-    except Subscriber.DoesNotExist:
+    if email:
+        try:
+            subscriber = Subscriber.objects.get(email=email)
+            if subscriber.email:
+                return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Esta dirección de correo ya está suscrita.'})
+        except Subscriber.DoesNotExist:
+            None
+
+    if phone:
         try:
             subscriber = Subscriber.objects.get(phone=phone)
             if subscriber.phone:
@@ -122,5 +123,23 @@ def subscribe(request):
     else:
         return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Hubo un error al crear la suscripción (1).'})
 
+def unsubscribe(request):
+    """Remove a subscriber"""
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
 
+    if email:
+        try:
+            subscriber = Subscriber.objects.get(email=email)
+            subscriber.delete()
+        except Subscriber.DoesNotExist:
+            None
 
+    if phone:
+        try:
+            subscriber = Subscriber.objects.get(phone=phone)
+            subscriber.delete()
+        except Subscriber.DoesNotExist:
+            None
+
+    return JsonResponse({'status': 'ok'})

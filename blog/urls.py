@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^(?P<post_url>.+)/$', views.content, name='post_content'),
     # /blog/subscribe
     url(r'^subscribe$', views.subscribe, name='subscribe'),
+    # /blog/unsubscribe
+    url(r'^unsubscribe$', views.unsubscribe, name='unsubscribe'),
 ]

@@ -22,8 +22,12 @@
             });
         </script>
     {% endif %}
-    <script type='text/javascript' src="{% static 'blog/js/comment.js' %}"></script>
-    <script type='text/javascript' src="{% static 'blog/js/subscribe.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Helper.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Storage.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Comment.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Unsubscribe.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Subscribe.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/blog.js' %}"></script>
 {% endblock %}
 
 {% block primary %}
@@ -40,9 +44,12 @@
                     {% endif %}
 
                     <!-- BUTTON TO SHOW SUBSCRIBE MODAL -->
-                    <input id="show_subscribe" class="form_button w100 mb20" type="button" value="¡ME QUIERO SUSCRIBIR!" />
+                    <input id="show_subscribe" class="hide form_button w100 mb20" type="button" value="¡ME QUIERO SUSCRIBIR!" />
 
                     <div class="post-content">{% autoescape off %}{{ post.content|linebreaks }}{% endautoescape %}</div>
+
+                    <!-- BUTTON TO SHOW UNSUBSCRIBE MODAL -->
+                    <input id="show_unsubscribe" class="hide form_button form_button_b w100 mt20" type="button" value="¡QUIERO DESUSCRIBIRME!" />
                 </div>
 
                 {% if post_media %}
@@ -169,7 +176,9 @@
 
 {% block bottom %}
 <div class="opacity_layer"></div>
-<div class="modal">
+
+<!-- SUSCRIBE MODAL -->
+<div class="modal subscribe_form_modal">
     <form class="form" id="subscribe_form" method="post" action="{% url 'blog:subscribe' %}">
         <fieldset>
             <legend class="mb10">
@@ -412,6 +421,22 @@
             <br />
             <input class="form_button" id="trigger_subscribe" type="button" value="¡SÍ, QUIERO!"/>
             <input class="fright form_button form_button_b close_subscribe" type="button" value="CERRAR" />
+        </fieldset>
+    </form>
+</div>
+
+<!-- UNSUSCRIBE MODAL -->
+<div class="modal unsubscribe_form_modal">
+    <form class="form" id="unsubscribe_form" method="post" action="{% url 'blog:unsubscribe' %}">
+        <fieldset>
+            <legend class="mb10">
+                ¿Estás seguro de que quieres desuscribirte de este alucinante blog?
+            </legend>
+            <p class="mb10 unsubscribe_info_message"></p>
+            <p class="mb10 text-color-a unsubscribe_error_message"></p>
+            {% csrf_token %}
+            <input class="form_button" id="trigger_unsubscribe" type="button" value="¡ESTOY SEGURO!"/>
+            <input class="fright form_button form_button_b close_unsubscribe" type="button" value="MEJOR NO" />
         </fieldset>
     </form>
 </div>
