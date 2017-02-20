@@ -1,4 +1,3 @@
-from whatsapp import Client
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect, JsonResponse
