@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
 from bs4 import BeautifulSoup
+from .email import BlogEmail
 from .models import Post, PostComment, Subscriber
 
 
@@ -62,26 +63,13 @@ def comment(request, post_url):
     comment_object = PostComment(post=post, owner=comment_author, content=comment_content, parent_id=comment_parent)
     comment_object.save()
 
-    # Send comment
-
     # Build post url
     location = reverse('blog:post_content', args=[post_url])
     url = request.build_absolute_uri(location)
 
-    # Build email content
-    msg_plain = render_to_string('email/comment_plain.txt', {'content': comment_content, 'blog_post_url': url})
-    msg_html =\
-        render_to_string('email/comment_html.html', {'content': comment_content, 'blog_post_url': url, 'title': post.title})
-
-    # Send it
-    email = EmailMultiAlternatives(
-        '[Buscando La Idea] Comentario de ' + comment_author,
-        msg_plain,
-        'info@buscandolaidea.com',
-        ['info@buscandolaidea.com']
-    )
-    email.attach_alternative(msg_html, 'text/html')
-    email.send()
+    # Send comment
+    blog_email = BlogEmail()
+    blog_email.new_comment(comment_content, comment_author, url, post.title)
 
     return HttpResponseRedirect(reverse('blog:post_content', args=[post_url]))
 
@@ -101,31 +89,17 @@ def send_post_subscription(request):
         try:
             post = Post.objects.get(id=post_id)
             if post:
-                # Send notification
-
                 # Build post url
                 location = reverse('blog:post_content', args=[post.url])
                 url = request.build_absolute_uri(location)
 
-                # Build email content
-                msg_plain = render_to_string('email/new_post_plain.txt', {'blog_post_url': url})
-                msg_html = \
-                    render_to_string('email/new_post_html.html', {'blog_post_url': url, 'title': post.title})
-
-                # Send it
-                emails = Subscriber.objects.values_list('email', flat=True).exclude(email='')
-                email = EmailMultiAlternatives(
-                    '[Buscando La Idea] ' + post.title,
-                    msg_plain,
-                    'info@buscandolaidea.com',
-                    ['info@buscandolaidea.com'],
-                    emails
-                )
-                email.attach_alternative(msg_html, 'text/html')
-                email.send()
+                # Send notification
+                emails = list(Subscriber.objects.values_list('email', flat=True).exclude(email=''))
+                blog_email = BlogEmail()
+                blog_email.new_post(url, post.title, emails)
 
                 # TODO: Send whatsapp messages
-                # phones = Subscriber.objects.values_list('phone', flat=True).exclude(phone='')
+                # phones = list(Subscriber.objects.values_list('phone', flat=True).exclude(phone=''))
 
                 return JsonResponse({'status': 'ok'})
 
@@ -161,6 +135,12 @@ def subscribe(request):
     subscriber_object = Subscriber(email=email, phone=phone)
     subscriber_object.save()
     if subscriber_object.id:
+
+        # Send welcome email
+        if email:
+            blog_email = BlogEmail()
+            blog_email.new_subscriber(email)
+
         return JsonResponse({'status': 'ok'})
     else:
         return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Hubo un error al crear la suscripción (1).'})
