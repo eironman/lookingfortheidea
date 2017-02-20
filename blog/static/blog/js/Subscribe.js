@@ -3,12 +3,6 @@ var Subscribe = {
     phone: null,
     email: null,
 
-    cleanForm: function()
-    {
-        this.removeMessages();
-        $('input[name="subscribe_phone"], input[name="subscribe_email"]').val('');
-    },
-
     disableSaveButton: function()
     {
         $('#trigger_subscribe').val('').addClass('loading').attr('disabled', 'disabled');
@@ -23,7 +17,7 @@ var Subscribe = {
     {
         $('.opacity_layer, .subscribe_form_modal').hide();
         $('.opacity_layer, .close_subscribe').off('click', Subscribe.hideSubscribeModal);
-        Subscribe.cleanForm();
+        Subscribe.resetSubscribeModal();
     },
 
     hideSubscribeButton: function()
@@ -36,6 +30,22 @@ var Subscribe = {
         $('.subscribe_error_message').html('');
         $('.subscribe_info_message').html('');
         $('input[name="subscribe_phone"], input[name="subscribe_email"]').removeClass('error');
+    },
+
+    resetSubscribeModal: function()
+    {
+        $('input[name="subscribe_phone"], input[name="subscribe_email"]').val('');
+        this.phone = '';
+        this.email = '';
+        this.removeMessages();
+
+
+        $("#trigger_subscribe").show();
+        $('input[name="subscribe_phone"]').show();
+        $('input[name="subscribe_email"]').show();
+        $('#and_or').show();
+        $('select[name=country_code]').show();
+        $("#subscribe_form legend").show();
     },
 
     saveSubscriber: function()
@@ -64,9 +74,8 @@ var Subscribe = {
         })
         .done(function(response) {
             if (response.status == 'ok') {
-                self.cleanForm();
-                self.showInfo('¡Hecho! Muchas gracias, ya puedes recibir notificaciones :)');
                 self.storeSubscriberLocally();
+                self.showSuccessModal();
                 self.hideSubscribeButton();
                 Unsubscribe.showUnsubscribeButton();
             } else {
@@ -101,6 +110,17 @@ var Subscribe = {
         $('.opacity_layer, .close_subscribe').on('click', Subscribe.hideSubscribeModal);
     },
 
+    showSuccessModal: function()
+    {
+        this.showInfo('¡Hecho! Muchas gracias, ya puedes recibir notificaciones :)');
+        $("#trigger_subscribe").hide();
+        $('input[name="subscribe_phone"]').hide();
+        $('input[name="subscribe_email"]').hide();
+        $('#and_or').hide();
+        $('select[name=country_code]').hide();
+        $("#subscribe_form legend").hide();
+    },
+
     // Stores subscriber data into local storage
     storeSubscriberLocally: function()
     {
@@ -115,23 +135,24 @@ var Subscribe = {
         this.email = $('input[name="subscribe_email"]').val().replace(/ /g, '');
 
         // Security checks
-        if (this.phone == '' && this.email == '') {
+        if (Helper.isEmpty(this.phone) && Helper.isEmpty(this.email)) {
             $('input[name="subscribe_phone"], input[name="subscribe_email"]').addClass('error');
             this.showError('¡Hey! Debes completar como mínimo uno de los campos');
             return false;
         }
-        if (this.email != '' && !Helper.validateEmail(this.email)) {
+        if (!Helper.isEmpty(this.email) && !Helper.validateEmail(this.email)) {
             $('input[name="subscribe_email"]').addClass('error');
             $('input[name="subscribe_phone"]').removeClass('error');
             this.showError('¡Ups! El email no es válido');
             return false;
         }
-        if (this.phone != '' && !this.phone.match(/^\d+$/)) {
-            $('input[name="subscribe_phone"]').addClass('error');
-            $('input[name="subscribe_email"]').removeClass('error');
-            this.showError('¡Ups! El teléfono no es válido');
-            return false;
-        } else {
+        if (!Helper.isEmpty(this.phone)) {
+            if (!this.phone.match(/^\d+$/)) {
+                $('input[name="subscribe_phone"]').addClass('error');
+                $('input[name="subscribe_email"]').removeClass('error');
+                this.showError('¡Ups! El teléfono no es válido');
+                return false;
+            }
             this.phone = '+' + $('select[name=country_code]').val() + this.phone;
         }
 
@@ -142,11 +163,10 @@ var Subscribe = {
 
     init: function()
     {
+        // Show subscribe button?
         this.email = Storage.get('bli_subscriber_email');
         this.phone = Storage.get('bli_subscriber_phone');
-        if (!Helper.isEmpty(this.email) || !Helper.isEmpty(this.phone)) {
-            this.hideSubscribeButton();
-        } else {
+        if (Helper.isEmpty(this.email) && Helper.isEmpty(this.phone)) {
             this.showSubscribeButton();
         }
 
@@ -160,6 +180,5 @@ var Subscribe = {
                 self.saveSubscriber();
             }
         });
-
     }
 };

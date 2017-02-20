@@ -43,12 +43,12 @@
                         </div>
                     {% endif %}
 
-                    <!-- BUTTON TO SHOW SUBSCRIBE MODAL -->
-                    <input id="show_subscribe" class="hide form_button w100 mb20" type="button" value="¡ME QUIERO SUSCRIBIR!" />
-
                     <div class="post-content">{% autoescape off %}{{ post.content|linebreaks }}{% endautoescape %}</div>
 
-                    <!-- BUTTON TO SHOW UNSUBSCRIBE MODAL -->
+                    <!-- BUTTON TO SUBSCRIBE -->
+                    <input id="show_subscribe" class="hide form_button w100 mt20" type="button" value="¡ME QUIERO SUSCRIBIR!" />
+
+                    <!-- BUTTON TO UNSUBSCRIBE -->
                     <input id="show_unsubscribe" class="hide form_button form_button_b w100 mt20" type="button" value="¡QUIERO DESUSCRIBIRME!" />
                 </div>
 
@@ -194,7 +194,7 @@
                     type="email"
                     name="subscribe_email"
                     placeholder="Email"/>
-            <p class="mb10">y/o</p>
+            <p id="and_or" class="mb10">y/o</p>
             <select name="country_code">
                 <option value="34" selected="selected">Spain (+34)</option>
                 <optgroup label="Otros países">

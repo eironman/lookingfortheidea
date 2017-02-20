@@ -13,6 +13,11 @@ var Unsubscribe = {
         $('#trigger_unsubscribe').val('¡ESTOY SEGURO!').removeClass('loading').removeAttr('disabled');
     },
 
+    getSubscriberData: function() {
+        this.email = Storage.get('bli_subscriber_email');
+        this.phone = Storage.get('bli_subscriber_phone');
+    },
+
     hideUnsubscribeButton: function()
     {
         $('#show_unsubscribe').hide();
@@ -21,8 +26,8 @@ var Unsubscribe = {
     hideUnsubscribeModal: function()
     {
         $('.opacity_layer, .unsubscribe_form_modal').hide();
-        Unsubscribe.resetUnsuscribeModal();
         $('.opacity_layer, .close_unsubscribe').off('click', Unsubscribe.hideUnsubscribeModal);
+        Unsubscribe.resetUnsuscribeModal();
     },
 
     removeMessages: function()
@@ -87,6 +92,8 @@ var Unsubscribe = {
         $("#trigger_unsubscribe").show();
         $("#unsubscribe_form legend").show();
         $(".close_unsubscribe").val('MEJOR NO');
+        this.phone = '';
+        this.email = '';
         this.removeMessages();
     },
 
@@ -114,24 +121,34 @@ var Unsubscribe = {
 
     showUnsubscribeModal: function()
     {
+        this.getSubscriberData();
+        var subscriberInfo = 'Estás suscrito como:';
+        if (!Helper.isEmpty(this.email)) {
+            subscriberInfo += '<br><br>' + this.email;
+        }
+        if (!Helper.isEmpty(this.phone)) {
+            subscriberInfo += '<br><br>' + this.phone;
+        }
+        this.showInfo(subscriberInfo);
         $('.opacity_layer, .unsubscribe_form_modal').show();
-        $('.opacity_layer, .close_unsubscribe').on('click', Unsubscribe.hideUnsubscribeModal);
+        $('.opacity_layer, .close_unsubscribe').on('click', this.hideUnsubscribeModal);
     },
 
-    init: function() {
-        this.email = Storage.get('bli_subscriber_email');
-        this.phone = Storage.get('bli_subscriber_phone');
+    init: function()
+    {
+        // Show unsubscribe button?
+        this.getSubscriberData();
         if (!Helper.isEmpty(this.email) || !Helper.isEmpty(this.phone)) {
             this.showUnsubscribeButton();
-        } else {
-            this.hideUnsubscribeButton();
         }
 
         // Show modal
-        $('#show_unsubscribe').on('click', this.showUnsubscribeModal);
+        var self = this;
+        $('#show_unsubscribe').on('click', function() {
+            self.showUnsubscribeModal();
+        });
 
         // User clicks on unsubscribe
-        var self = this;
         $('#trigger_unsubscribe').on('click', function() {
             self.removeSubscriber()
         });
