@@ -1,3 +1,4 @@
+from whatsapp import Client
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect, JsonResponse
@@ -69,9 +70,9 @@ def comment(request, post_url):
     url = request.build_absolute_uri(location)
 
     # Build email content
-    msg_plain = render_to_string('email/plain.txt', {'content': comment_content, 'blog_post_url': url})
+    msg_plain = render_to_string('email/comment_plain.txt', {'content': comment_content, 'blog_post_url': url})
     msg_html =\
-        render_to_string('email/html.html', {'content': comment_content, 'blog_post_url': url, 'title': post.title})
+        render_to_string('email/comment_html.html', {'content': comment_content, 'blog_post_url': url, 'title': post.title})
 
     # Send it
     email = EmailMultiAlternatives(
@@ -91,6 +92,48 @@ def posts_list(request):
     post_list = Post.objects.order_by('-pub_date')
     context = {'post_list': post_list}
     return render(request, 'blog/posts_list.html', context)
+
+
+def send_post_subscription(request):
+    """Sends the notification about a new post to subscribers"""
+    post_id = request.POST.get('post_id')
+
+    if post_id:
+        try:
+            post = Post.objects.get(id=post_id)
+            if post:
+                # Send notification
+
+                # Build post url
+                location = reverse('blog:post_content', args=[post.url])
+                url = request.build_absolute_uri(location)
+
+                # Build email content
+                msg_plain = render_to_string('email/new_post_plain.txt', {'blog_post_url': url})
+                msg_html = \
+                    render_to_string('email/new_post_html.html', {'blog_post_url': url, 'title': post.title})
+
+                # Send it
+                emails = Subscriber.objects.values_list('email', flat=True).exclude(email='')
+                email = EmailMultiAlternatives(
+                    '[Buscando La Idea] ' + post.title,
+                    msg_plain,
+                    'info@buscandolaidea.com',
+                    ['info@buscandolaidea.com'],
+                    emails
+                )
+                email.attach_alternative(msg_html, 'text/html')
+                email.send()
+
+                # TODO: Send whatsapp messages
+                # phones = Subscriber.objects.values_list('phone', flat=True).exclude(phone='')
+
+                return JsonResponse({'status': 'ok'})
+
+        except Subscriber.DoesNotExist:
+            return JsonResponse({'status': 'ko', 'msg': 'Post does not exist'})
+    else:
+        return JsonResponse({'status': 'ko', 'msg': 'No post id provided'})
 
 
 def subscribe(request):
@@ -122,6 +165,7 @@ def subscribe(request):
         return JsonResponse({'status': 'ok'})
     else:
         return JsonResponse({'status': 'ko', 'msg': '¡Vaya! Hubo un error al crear la suscripción (1).'})
+
 
 def unsubscribe(request):
     """Remove a subscriber"""

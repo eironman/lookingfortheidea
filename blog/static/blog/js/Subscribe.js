@@ -108,6 +108,7 @@ var Subscribe = {
     {
         $('.opacity_layer, .subscribe_form_modal').show();
         $('.opacity_layer, .close_subscribe').on('click', Subscribe.hideSubscribeModal);
+        $('input[name="subscribe_email"]').focus();
     },
 
     showSuccessModal: function()
@@ -125,25 +126,25 @@ var Subscribe = {
     storeSubscriberLocally: function()
     {
         Storage.set('bli_subscriber_email', this.email);
-        Storage.set('bli_subscriber_phone', this.phone);
+        // Storage.set('bli_subscriber_phone', this.phone);
     },
 
     // Check if the data of a subscriber is valid
     validateSubscriberData: function()
     {
-        this.phone = $('input[name="subscribe_phone"]').val().replace(/ /g, '');
+        // this.phone = $('input[name="subscribe_phone"]').val().replace(/ /g, '');
         this.email = $('input[name="subscribe_email"]').val().replace(/ /g, '');
 
         // Security checks
         if (Helper.isEmpty(this.phone) && Helper.isEmpty(this.email)) {
             $('input[name="subscribe_phone"], input[name="subscribe_email"]').addClass('error');
-            this.showError('¡Hey! Debes completar como mínimo uno de los campos');
+            this.showError('¡Hey! Necesito tu correo para enviar las notificaciones');
             return false;
         }
         if (!Helper.isEmpty(this.email) && !Helper.validateEmail(this.email)) {
             $('input[name="subscribe_email"]').addClass('error');
             $('input[name="subscribe_phone"]').removeClass('error');
-            this.showError('¡Ups! El email no es válido');
+            this.showError('¡Ups! El correo no es válido');
             return false;
         }
         if (!Helper.isEmpty(this.phone)) {
@@ -165,7 +166,7 @@ var Subscribe = {
     {
         // Show subscribe button?
         this.email = Storage.get('bli_subscriber_email');
-        this.phone = Storage.get('bli_subscriber_phone');
+        // this.phone = Storage.get('bli_subscriber_phone');
         if (Helper.isEmpty(this.email) && Helper.isEmpty(this.phone)) {
             this.showSubscribeButton();
         }

@@ -54,6 +54,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField('date published', default=timezone.now)
     main_image = models.ImageField(upload_to=settings.BLOG_IMAGES_STORAGE_DIRECTORY, null=True)
     publish = models.BooleanField(default=False)
+    notification_sent = models.BooleanField(default=False)
 
     def save(self):
         """Overwrite save method"""

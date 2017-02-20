@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^subscribe$', views.subscribe, name='subscribe'),
     # /blog/unsubscribe
     url(r'^unsubscribe$', views.unsubscribe, name='unsubscribe'),
+    # /blog/send_post_subscription
+    url(r'^send_post_subscription$', views.send_post_subscription, name='send_post_subscription'),
 ]

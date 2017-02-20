@@ -30,9 +30,9 @@ class PostAdmin(admin.ModelAdmin):
     """Blog post"""
     date_hierarchy = 'pub_date'
     form = ContentForm
-    fields = ('publish', 'title', 'url', 'content', 'pub_date', 'main_image', 'image_medium',)
+    fields = ('publish', 'notification_sent', 'title', 'url', 'content', 'pub_date', 'main_image', 'image_medium',)
     inlines = [PostMediaInline, PostCommentInline]
-    list_display = ('image_small', 'title', 'publish', 'pub_date', 'num_comments', 'num_media')
+    list_display = ('image_small', 'title', 'publish', 'notification_sent','pub_date', 'num_comments', 'num_media')
     list_filter = ('pub_date',)
     readonly_fields = ('image_medium',) # image_small has to be in fields and readonly_fields to avoid django error
     search_fields = ('title',)
@@ -51,7 +51,9 @@ class PostAdmin(admin.ModelAdmin):
         }
         js = (
             '/static/blog/lib/tinymce/tinymce.min.js',
-            '/static/blog/js/tinymce_setup.js',
+            '/static/blog/js/admin/tinymce_setup.js',
+            '/static/blog/js/admin/post.js',
+            '/static/blog/js/Helper.js',
         )
 
 

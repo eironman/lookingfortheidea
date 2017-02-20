@@ -15,7 +15,7 @@ var Unsubscribe = {
 
     getSubscriberData: function() {
         this.email = Storage.get('bli_subscriber_email');
-        this.phone = Storage.get('bli_subscriber_phone');
+        // this.phone = Storage.get('bli_subscriber_phone');
     },
 
     hideUnsubscribeButton: function()
@@ -122,13 +122,13 @@ var Unsubscribe = {
     showUnsubscribeModal: function()
     {
         this.getSubscriberData();
-        var subscriberInfo = 'Estás suscrito como:';
-        if (!Helper.isEmpty(this.email)) {
+        var subscriberInfo = 'Estás suscrito como: ' + this.email;
+        /* if (!Helper.isEmpty(this.email)) {
             subscriberInfo += '<br><br>' + this.email;
         }
         if (!Helper.isEmpty(this.phone)) {
             subscriberInfo += '<br><br>' + this.phone;
-        }
+        } */
         this.showInfo(subscriberInfo);
         $('.opacity_layer, .unsubscribe_form_modal').show();
         $('.opacity_layer, .close_unsubscribe').on('click', this.hideUnsubscribeModal);
