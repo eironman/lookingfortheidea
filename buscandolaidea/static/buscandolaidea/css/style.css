@@ -20,6 +20,10 @@ header {
   border-top: 6px solid #0099f5;
   padding: 50px 0;
 }
+header .site_name {
+    vertical-align: top;
+    margin: 6px 0 0 5px
+}
 header .mobile_menu_icon {
     display: none;
 }
@@ -70,6 +74,10 @@ header nav li a.active{
     header .logo {
         width: 10%;
     }
+    header .site_name {
+        width: 19%;
+        margin-top: 4px;
+    }
     header nav {
         display: none;
         margin-bottom: 0px !important;
@@ -96,6 +104,10 @@ header nav li a.active{
 @media (max-width: 479px) {
     header .logo {
         width: 15%;
+    }
+    header .site_name {
+        width: 26%;
+        margin-top: 6px;
     }
     header .mobile_menu_icon {
         width: 6%
