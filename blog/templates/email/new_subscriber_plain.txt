@@ -1,3 +1,5 @@
 Tu suscripción se ha realizado con éxito
 ¡Hola! Gracias por suscribirte al blog, te prometo que no te molestaré con spam, quitando este correo, sólo recibirás uno más por cada artículo nuevo que escriba en el blog :)
 http://buscandolaidea.com
+
+Si no tienes ni idea de porqué has recibido este correo, utiliza este enlace por favor: {{unsubscribe_url}}

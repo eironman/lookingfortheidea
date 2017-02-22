@@ -13,9 +13,20 @@ var Unsubscribe = {
         $('#trigger_unsubscribe').val('¡ESTOY SEGURO!').removeClass('loading').removeAttr('disabled');
     },
 
-    getSubscriberData: function() {
-        this.email = Storage.get('bli_subscriber_email');
+    getSubscriberData: function()
+    {
+        var emailParam = Helper.getUrlParameter('e');
+        if (!Helper.isEmpty(emailParam)) {
+            this.email = emailParam;
+        } else {
+            this.email = Storage.get('bli_subscriber_email');
+        }
         // this.phone = Storage.get('bli_subscriber_phone');
+    },
+
+    hideCancelButton: function()
+    {
+        $(".close_unsubscribe").hide();
     },
 
     hideUnsubscribeButton: function()
@@ -30,6 +41,19 @@ var Unsubscribe = {
         Unsubscribe.resetUnsuscribeModal();
     },
 
+    populateSubscriberInfo: function()
+    {
+        this.getSubscriberData();
+        var subscriberInfo = 'Estás suscrito como: ' + this.email;
+        /* if (!Helper.isEmpty(this.email)) {
+            subscriberInfo += '<br><br>' + this.email;
+        }
+        if (!Helper.isEmpty(this.phone)) {
+            subscriberInfo += '<br><br>' + this.phone;
+        } */
+        this.showInfo(subscriberInfo);
+    },
+
     removeMessages: function()
     {
         $('.unsubscribe_error_message').html('');
@@ -40,8 +64,7 @@ var Unsubscribe = {
     {
         var self = this;
         this.disableConfirmButton();
-        this.email = Storage.get('bli_subscriber_email');
-        this.phone = Storage.get('bli_subscriber_phone');
+        this.getSubscriberData();
 
         // Set the security token
         var csrftoken = Helper.getCookie('csrftoken')
@@ -68,14 +91,16 @@ var Unsubscribe = {
                 self.showSuccessModal();
                 self.removeSubscriberLocally();
                 self.hideUnsubscribeButton();
-                Subscribe.showSubscribeButton();
+                if (typeof Subscribe !== 'undefined') {
+                    Subscribe.showSubscribeButton();
+                }
             } else {
-                self.showError('¡Vaya! Ha ocurrido un error al desuscribirte (1).');
+                self.showError(response.msg);
             }
             self.enableConfirmButton();
         })
         .error(function() {
-            self.showError('¡Vaya! Ha ocurrido un error al desuscribirte (2).');
+            self.showError('¡Vaya! Ha ocurrido un error al desuscribirte.');
             self.enableConfirmButton();
         });
     },
@@ -83,8 +108,16 @@ var Unsubscribe = {
     // Removes subscriber data from local storage
     removeSubscriberLocally: function()
     {
-        Storage.remove('bli_subscriber_email');
-        Storage.remove('bli_subscriber_phone');
+        // Check if the user unsuscribes from the cancel_unsubscribe page
+        // which means that maybe the email is different than the one stored locally
+        var localEmail = Storage.get('bli_subscriber_email');
+        if (localEmail === this.email) {
+            Storage.remove('bli_subscriber_email');
+        }
+        var localPhone = Storage.get('bli_subscriber_phone');
+        if (localPhone === this.phone) {
+            Storage.remove('bli_subscriber_phone');
+        }
     },
 
     resetUnsuscribeModal: function()
@@ -121,32 +154,28 @@ var Unsubscribe = {
 
     showUnsubscribeModal: function()
     {
-        this.getSubscriberData();
-        var subscriberInfo = 'Estás suscrito como: ' + this.email;
-        /* if (!Helper.isEmpty(this.email)) {
-            subscriberInfo += '<br><br>' + this.email;
-        }
-        if (!Helper.isEmpty(this.phone)) {
-            subscriberInfo += '<br><br>' + this.phone;
-        } */
-        this.showInfo(subscriberInfo);
         $('.opacity_layer, .unsubscribe_form_modal').show();
         $('.opacity_layer, .close_unsubscribe').on('click', this.hideUnsubscribeModal);
     },
 
-    init: function()
+    init: function(toggleUnsubscribeButton)
     {
-        // Show unsubscribe button?
-        this.getSubscriberData();
-        if (!Helper.isEmpty(this.email) || !Helper.isEmpty(this.phone)) {
-            this.showUnsubscribeButton();
-        }
-
-        // Show modal
         var self = this;
-        $('#show_unsubscribe').on('click', function() {
-            self.showUnsubscribeModal();
-        });
+
+        // Show/hide unsubscribe button
+        if (toggleUnsubscribeButton !== false) {
+            // Show unsubscribe button?
+            this.getSubscriberData();
+            if (!Helper.isEmpty(this.email) || !Helper.isEmpty(this.phone)) {
+                this.showUnsubscribeButton();
+            }
+
+            // Show modal
+            $('#show_unsubscribe').on('click', function() {
+                self.populateSubscriberInfo();
+                self.showUnsubscribeModal();
+            });
+        }
 
         // User clicks on unsubscribe
         $('#trigger_unsubscribe').on('click', function() {

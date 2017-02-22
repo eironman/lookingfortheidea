@@ -1,0 +1,18 @@
+{% extends 'buscandolaidea/base_template.html' %}
+{% load staticfiles %}
+{% block pagetitle %} - Cancelar suscripción{% endblock %}
+
+{% block head %}
+
+    {% if load_jquery %}
+    <script type='text/javascript' src="{% static 'blog/js/jquery-1.12.3.min.js' %}"></script>
+    {% endif %}
+    <script type='text/javascript' src="{% static 'blog/js/Helper.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Storage.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/Unsubscribe.js' %}"></script>
+    <script type='text/javascript' src="{% static 'blog/js/cancel_subscription.js' %}"></script>
+{% endblock %}
+
+{% block primary %}
+    {% include 'blog/blocks/unsubscribe_form.html' %}
+{% endblock %}

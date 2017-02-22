@@ -1,3 +1,5 @@
 ¡Tu día acaba de mejorar! He escrito un nuevo artículo en buscandolaidea:
 
 {{blog_post_url}}">
+
+Tal vez te has cansado de los artículos, aquí tienes el enlace para dejar de recibirlos: {{unsubscribe_url}}

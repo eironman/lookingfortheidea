@@ -1,13 +1,15 @@
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.template.loader import render_to_string
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
 from bs4 import BeautifulSoup
 from .email import BlogEmail
 from .models import Post, PostComment, Subscriber
+
+
+def cancel_subscription(request):
+    return render(request, 'blog/cancel_subscription.html')
 
 
 def content(request, post_url):
@@ -45,10 +47,8 @@ def comment(request, post_url):
         return render(request, 'blog/content.html', context)
 
     # HTML tags are not allowed
-    author_has_html_tags = \
-        bool(BeautifulSoup(comment_author, "html.parser").find())
-    content_has_html_tags =\
-        bool(BeautifulSoup(comment_content, "html.parser").find())
+    author_has_html_tags =  bool(BeautifulSoup(comment_author, "html.parser").find())
+    content_has_html_tags = bool(BeautifulSoup(comment_content, "html.parser").find())
     if author_has_html_tags or content_has_html_tags:
         context = {
             'post': post,
@@ -63,13 +63,9 @@ def comment(request, post_url):
     comment_object = PostComment(post=post, owner=comment_author, content=comment_content, parent_id=comment_parent)
     comment_object.save()
 
-    # Build post url
-    location = reverse('blog:post_content', args=[post_url])
-    url = request.build_absolute_uri(location)
-
     # Send comment
     blog_email = BlogEmail()
-    blog_email.new_comment(comment_content, comment_author, url, post.title)
+    blog_email.new_comment(request, comment_content, comment_author, post_url, post.title)
 
     return HttpResponseRedirect(reverse('blog:post_content', args=[post_url]))
 
@@ -89,14 +85,10 @@ def send_post_subscription(request):
         try:
             post = Post.objects.get(id=post_id)
             if post:
-                # Build post url
-                location = reverse('blog:post_content', args=[post.url])
-                url = request.build_absolute_uri(location)
-
                 # Send notification
                 emails = list(Subscriber.objects.values_list('email', flat=True).exclude(email=''))
                 blog_email = BlogEmail()
-                blog_email.new_post(url, post.title, emails)
+                blog_email.new_post(request, post.url, post.title, emails)
 
                 # TODO: Send whatsapp messages
                 # phones = list(Subscriber.objects.values_list('phone', flat=True).exclude(phone=''))
@@ -139,7 +131,7 @@ def subscribe(request):
         # Send welcome email
         if email:
             blog_email = BlogEmail()
-            blog_email.new_subscriber(email)
+            blog_email.new_subscriber(request, email)
 
         return JsonResponse({'status': 'ok'})
     else:
@@ -150,11 +142,13 @@ def unsubscribe(request):
     """Remove a subscriber"""
     email = request.POST.get('email')
     phone = request.POST.get('phone')
+    exists = False
 
     if email:
         try:
             subscriber = Subscriber.objects.get(email=email)
             subscriber.delete()
+            exists = True
         except Subscriber.DoesNotExist:
             None
 
@@ -162,7 +156,11 @@ def unsubscribe(request):
         try:
             subscriber = Subscriber.objects.get(phone=phone)
             subscriber.delete()
+            exists = True
         except Subscriber.DoesNotExist:
             None
 
-    return JsonResponse({'status': 'ok'})
+    if exists:
+        return JsonResponse({'status': 'ok'})
+    else:
+        return JsonResponse({'status': 'ko', 'msg': '¡Vaya! No hay nadie registrado con estos datos'})

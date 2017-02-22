@@ -1,0 +1,12 @@
+<form class="form" id="unsubscribe_form" method="post" action="{% url 'blog:unsubscribe' %}">
+    <fieldset>
+        <legend class="mb10">
+            ¿Estás seguro de que quieres desuscribirte de este alucinante blog?
+        </legend>
+        <p class="mb10 unsubscribe_info_message"></p>
+        <p class="mb10 text-color-a unsubscribe_error_message"></p>
+        {% csrf_token %}
+        <input class="form_button" id="trigger_unsubscribe" type="button" value="¡SEGURO!"/>
+        <input class="fright form_button form_button_b close_unsubscribe" type="button" value="MEJOR NO" />
+    </fieldset>
+</form>

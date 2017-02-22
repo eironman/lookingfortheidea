@@ -72,7 +72,6 @@ class Post(models.Model):
             create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_MEDIUM, '_medium')
             create_thumbnail(self.main_image.path, settings.BLOG_THUMBNAIL_SMALL, '_small')
 
-
     def __str__(self):
         """String representation of the class"""
         return self.title + ' - ' + self.content
