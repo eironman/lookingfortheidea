@@ -3,8 +3,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
-from bs4 import BeautifulSoup
 from .email import BlogEmail
+from .helper import has_forbidden_content
 from .models import Post, PostComment, Subscriber
 
 
@@ -27,7 +27,7 @@ def content(request, post_url):
 
 
 # Raise forbidden if an ip makes more than 4 comments per hour
-@ratelimit(key='ip', rate='4/h', block=True)
+@ratelimit(key='ip', rate='3/h', block=True)
 def comment(request, post_url):
     """User comments a post"""
     post = get_object_or_404(Post, url=post_url)
@@ -47,15 +47,13 @@ def comment(request, post_url):
         return render(request, 'blog/content.html', context)
 
     # HTML tags are not allowed
-    author_has_html_tags =  bool(BeautifulSoup(comment_author, "html.parser").find())
-    content_has_html_tags = bool(BeautifulSoup(comment_content, "html.parser").find())
-    if author_has_html_tags or content_has_html_tags:
+    if has_forbidden_content(comment_author) or has_forbidden_content(comment_content):
         context = {
             'post': post,
             'comments': post.postcomment_set.all(),
             'comment_author': comment_author,
             'comment_content': comment_content,
-            'error_message': "Etiquetas HTML no están permitidas"
+            'error_message': "Contenido no permitido"
         }
         return render(request, 'blog/content.html', context)
 
