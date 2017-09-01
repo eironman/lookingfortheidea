@@ -31,19 +31,26 @@ def message(request):
         )
         contact_message.save()
 
-        # Send message
-        recipients = ['info@buscandolaidea.com']
-        if user_email:
-            recipients.append(user_email)
-
+        # Send message to me
         email = EmailMessage(
             '[Buscando La Idea] Mensaje de ' + name,
             message_content,
             'info@buscandolaidea.com',
-            recipients,
+            ['info@buscandolaidea.com'],
             reply_to=['info@buscandolaidea.com']
         )
         email.send()
+
+        # Send message to user
+        if user_email:
+            email = EmailMessage(
+                '[Buscando La Idea] Mensaje de ' + name,
+                message_content,
+                'info@buscandolaidea.com',
+                [user_email],
+                reply_to=['info@buscandolaidea.com']
+            )
+            email.send()
 
         context = {
             'success_message': "¡Muchas gracias por tu mensaje!"
