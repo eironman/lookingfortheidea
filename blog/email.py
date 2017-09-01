@@ -3,18 +3,22 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 
 
-class BlogEmail:
+class BlogMailer:
     """Sends the emails for the blog: comments, new subscribers, new posts"""
 
+    request = None
     msg_plain = None
     msg_html = None
     email_to = None
     subject = None
     email_bcc = None
 
-    def new_comment(self, request, comment_content, author, post_url, post_title):
+    def __init__(self, request):
+        self.request = request
+
+    def new_comment(self, comment_content, author, post_url, post_title):
         """Sends an email when there is a new comment"""
-        url = self.__build_blog_post_url(request, post_url)
+        url = self.__build_blog_post_url(self.request, post_url)
         self.msg_plain =\
             render_to_string('email/new_comment_plain.txt', {'content': comment_content, 'blog_post_url': url})
         self.msg_html = \
@@ -25,12 +29,12 @@ class BlogEmail:
         self.subject = 'Comentario de ' + author
         self.__send_email()
 
-    def new_post(self, request, post_url, post_title, emails):
+    def new_post(self, post_url, post_title, emails):
         """Sends the email for a new post"""
         self.subject = post_title
-        blog_post_url = self.__build_blog_post_url(request, post_url)
+        blog_post_url = self.__build_blog_post_url(self.request, post_url)
         for email in emails:
-            unsubscribe_url = self.__build_unsubscribe_url(request, email)
+            unsubscribe_url = self.__build_unsubscribe_url(self.request, email)
             self.msg_plain = \
                 render_to_string(
                     'email/new_post_plain.txt',
@@ -44,9 +48,9 @@ class BlogEmail:
             self.email_to = email
             self.__send_email()
 
-    def new_subscriber(self, request, subscriber_email):
+    def new_subscriber(self, subscriber_email):
         """Sends the welcome email for a new subscriber"""
-        unsubscribe_url = self.__build_unsubscribe_url(request, subscriber_email)
+        unsubscribe_url = self.__build_unsubscribe_url(self.request, subscriber_email)
         self.msg_plain = render_to_string('email/new_subscriber_plain.txt', {'unsubscribe_url': unsubscribe_url})
         self.msg_html = render_to_string('email/new_subscriber_html.html', {'unsubscribe_url': unsubscribe_url})
         self.email_to = subscriber_email

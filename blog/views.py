@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
-from .email import BlogEmail
+from .email import BlogMailer
 from .helper import has_forbidden_content
 from .models import Post, PostComment, Subscriber
 
@@ -62,8 +62,8 @@ def comment(request, post_url):
     comment_object.save()
 
     # Send comment
-    blog_email = BlogEmail()
-    blog_email.new_comment(request, comment_content, comment_author, post_url, post.title)
+    blog_email = BlogMailer(request)
+    blog_email.new_comment(comment_content, comment_author, post_url, post.title)
 
     return HttpResponseRedirect(reverse('blog:post_content', args=[post_url]))
 
@@ -85,8 +85,8 @@ def send_post_subscription(request):
             if post:
                 # Send notification
                 emails = list(Subscriber.objects.values_list('email', flat=True).exclude(email=''))
-                blog_email = BlogEmail()
-                blog_email.new_post(request, post.url, post.title, emails)
+                blog_email = BlogMailer(request)
+                blog_email.new_post(post.url, post.title, emails)
 
                 # TODO: Send whatsapp messages
                 # phones = list(Subscriber.objects.values_list('phone', flat=True).exclude(phone=''))
@@ -128,8 +128,8 @@ def subscribe(request):
 
         # Send welcome email
         if email:
-            blog_email = BlogEmail()
-            blog_email.new_subscriber(request, email)
+            blog_email = BlogMailer(request)
+            blog_email.new_subscriber(email)
 
         return JsonResponse({'status': 'ok'})
     else:
