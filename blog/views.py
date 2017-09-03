@@ -3,8 +3,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from ratelimit.decorators import ratelimit
+from buscandolaidea.helper import has_forbidden_content
 from .email import BlogMailer
-from .helper import has_forbidden_content
 from .models import Post, PostComment, Subscriber
 
 

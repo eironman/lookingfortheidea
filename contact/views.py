@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.mail import EmailMessage
+from buscandolaidea.helper import has_forbidden_content
 from .models import ContactMessage
 
 
@@ -20,6 +21,13 @@ def message(request):
             'email': user_email,
             'message': message_content,
             'error_message': "¡Ups! ¿Podrías decirme tu nombre y el mensaje por favor?"
+        }
+    elif has_forbidden_content(name) or has_forbidden_content(message_content):
+        context = {
+            'name': name,
+            'email': user_email,
+            'message': message_content,
+            'error_message': "¡Ups! Contenido no permitido"
         }
     else:
 
